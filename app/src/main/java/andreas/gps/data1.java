@@ -21,7 +21,4 @@ public class data1 extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
-
-
 }
