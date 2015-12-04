@@ -42,6 +42,13 @@ public class Servercomm extends Activity {
         Log.i(TAG, "message sent");
     }
 
+    public void connect(){
+        mSocket.connect();
+    }
+
+    public void disconnect(){
+        mSocket.disconnect();
+    }
 
     public interface ServercommEventListener {
         void respondToMessage();
