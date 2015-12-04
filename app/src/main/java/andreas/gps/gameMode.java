@@ -122,7 +122,7 @@ public class gameMode extends AppCompatActivity
     private double killmoveSoundValue = 25000;
     private double killmoveSpeedValue = 6.4;
     private double killmovelightValue = 2;
-    private double killmovePressButtonValue = 5;
+    private double killmovePressButtonValue = 50;
     private long killmovetimer = 30000;
     public boolean killmoveconfirmed = false;
 
@@ -823,6 +823,7 @@ public class gameMode extends AppCompatActivity
 
             public void onTick(long millisUntilFinished) {
                 kill_button.setVisibility(View.VISIBLE);
+                kill_button.setText("Press me");
 
                 if (!killmoveconfirmed) {
                     killMoveText.setText(killmovePressButtonText + millisUntilFinished / 1000);
@@ -1119,6 +1120,7 @@ public class gameMode extends AppCompatActivity
         Log.i(TAG, "gotEliminated");
         Toast.makeText(gameMode.this, "You got killed by "+sender, Toast.LENGTH_SHORT).show();
         mypoints *=0.8;
+        points_score.setText(Integer.toString(mypoints));
     }
     public void sendLocation(String sender) {
         Log.i(TAG, "sending location");
