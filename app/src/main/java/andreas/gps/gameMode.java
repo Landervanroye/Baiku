@@ -63,6 +63,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.List;
 import java.util.Random;
 
 import andreas.gps.sensoren.SensorActor;
@@ -121,11 +122,11 @@ public class gameMode extends AppCompatActivity
     private double killmoveSoundValue = 25000;
     private double killmoveSpeedValue = 6.4;
     private double killmovelightValue = 2;
-    private double killmovePressButtonValue = 5;
+    private double killmovePressButtonValue = 50;
     private long killmovetimer = 30000;
     public boolean killmoveconfirmed = false;
 
-    public ArrayList<String> pursuers = new ArrayList<String>();
+    public ArrayList<String> pursuers = new ArrayList<>();
     public String myusername;
     Servercomm mServercomm = new Servercomm();
     public String NotifyOffline = "NotifyOffline";
@@ -206,8 +207,7 @@ public class gameMode extends AppCompatActivity
             pursuer = "";
         }
     };
-
-
+    public JSONObject top10 = new JSONObject();
 
     //Lifecycle
     @Override
@@ -572,7 +572,6 @@ public class gameMode extends AppCompatActivity
             }
         }
     }
-    private int test=0;
     public void killMoveAccelor() {
 
         new CountDownTimer(killmovetimer, 200) {
@@ -613,6 +612,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
                     Log.i(TAG,"not killed");
@@ -655,6 +655,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    sendEliminatedmessage(TargetID);
                     points_score.setText(String.format("%d", mypoints));
                 } else {
                     Log.i(TAG,"not killed");
@@ -706,6 +707,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
                     Log.i(TAG,"not killed");
@@ -752,11 +754,12 @@ public class gameMode extends AppCompatActivity
                 sensorcol.stop();
                 killmoveconfirmed=false;
                 if (killMoveText.getText() == killedText) {
-                    Log.i(TAG,"killed");
+                    Log.i(TAG, "killed");
                     killMoveText.setText(killedPointsAddedText);
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
                     Log.i(TAG,"not killed!");
@@ -792,11 +795,12 @@ public class gameMode extends AppCompatActivity
                 Log.i(TAG, "killmove speed ended");
                 killmoveconfirmed=false;
                 if (killMoveText.getText() == killedText) {
-                    Log.i(TAG,"killed!");
+                    Log.i(TAG, "killed!");
                     killMoveText.setText(killedPointsAddedText);
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
                     Log.i(TAG,"not killed");
@@ -819,6 +823,7 @@ public class gameMode extends AppCompatActivity
 
             public void onTick(long millisUntilFinished) {
                 kill_button.setVisibility(View.VISIBLE);
+                kill_button.setText("Press me");
 
                 if (!killmoveconfirmed) {
                     killMoveText.setText(killmovePressButtonText + millisUntilFinished / 1000);
@@ -844,6 +849,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
                     Log.i(TAG,"not killed!");
@@ -1114,6 +1120,7 @@ public class gameMode extends AppCompatActivity
         Log.i(TAG, "gotEliminated");
         Toast.makeText(gameMode.this, "You got killed by "+sender, Toast.LENGTH_SHORT).show();
         mypoints *=0.8;
+        points_score.setText(Integer.toString(mypoints));
     }
     public void sendLocation(String sender) {
         Log.i(TAG, "sending location");
@@ -1192,99 +1199,123 @@ public class gameMode extends AppCompatActivity
             Log.i(TAG2, sender);
             Log.i(TAG2, "points");
             Log.i(TAG2, points.toString());
-            if (receiver.equals("") && !(sender.equals(myusername))) {
-                Log.i(TAG2, "Condition 1");
-                if (message.equals(NotifyOffline) && sender.equals(TargetID) && !killmoveinprogress) {
-                    Log.i(TAG2, "Condition 1.1");
-                    changeTarget();
-                } else if (message.equals(getPriorities) && !sender.equals(TargetID)) {
-                    Log.i(TAG2, "Condition 1.2");
-                    sendPriority(sender,targetLocation);
-                } else if (message.equals("HardKill") && sender.equals(TargetID)) {
-                    hardkill = true;
+
+            if (top10.length()<10) {
+                try {
+                    top10.put(sender, points);
+                } catch (JSONException e) {
+                    Log.i(TAG, "top10 exception");
+                    e.printStackTrace();
                 }
-            } else if (receiver.equals(myusername)) {
-                Log.i(TAG2, "Condition 2");
-                if (category.equals(eliminated)) {
-                    Log.i(TAG2, "Condition 2.1");
-                    gotEliminated(sender);
-                    if (pursuers.contains(sender)){
-                        pursuers.remove(sender);
+            } else {
+                for (int i = 0; i < top10.length(); i++) {
+                    String name = top10.keys().next();
+                    List<Integer> scores = new ArrayList<Integer>();
+                    List<String> names = new ArrayList<String>();
+                    names.add(name);
+                    scores.add(top10.getInt(name));
+                    int Index = findLowestUser(scores);
+                    if (points > scores.get(Index)) {
+                        top10.remove(names.get(Index));
+                        top10.put(sender, points);
                     }
-                } else if (category.equals(pickedTarget)) {
-                    Log.i(TAG2, "Condition 2.2");
-                    pursuers.add(sender);
-                } else if (category.equals(NotifyOffline)) {
-                    Log.i(TAG2, "Condition 2.3");
-                    if (pursuers.contains(sender)){
-                        pursuers.remove(sender);
+
+                }
+            }
+
+            if (receiver.equals("") && !(sender.equals(myusername))) {
+                    Log.i(TAG2, "Condition 1");
+                    if (message.equals(NotifyOffline) && sender.equals(TargetID) && !killmoveinprogress) {
+                        Log.i(TAG2, "Condition 1.1");
+                        changeTarget();
+                    } else if (message.equals(getPriorities) && !sender.equals(TargetID)) {
+                        Log.i(TAG2, "Condition 1.2");
+                        sendPriority(sender, targetLocation);
+                    } else if (message.equals("HardKill") && sender.equals(TargetID)) {
+                        hardkill = true;
                     }
-                } else if (category.equals(locationUpdate)) {
-                    Log.i(TAG2, "Condition 2.4");
-                    if (message.equals(getNewLocation)) {
-                        if (stopSignal) {
-                            Log.i(TAG2, "Condition 2.4.2");
-                            warnStopSignal(sender);
-                        } else if (Soundpowerup){
-                            record(sender);
-                        } else {
-                            Log.i(TAG2, "Condition 2.4.1");
-                            sendLocation(sender);
+                } else if (receiver.equals(myusername)) {
+                    Log.i(TAG2, "Condition 2");
+                    if (category.equals(eliminated)) {
+                        Log.i(TAG2, "Condition 2.1");
+                        gotEliminated(sender);
+                        if (pursuers.contains(sender)) {
+                            pursuers.remove(sender);
                         }
-                    } else if (message.equals(giveNewLocation)) {
-                        if (sender.equals(TargetID)) {
-                            Log.i(TAG2, "Condition 2.4.2");
+                    } else if (category.equals(pickedTarget)) {
+                        Log.i(TAG2, "Condition 2.2");
+                        pursuers.add(sender);
+                    } else if (category.equals(NotifyOffline)) {
+                        Log.i(TAG2, "Condition 2.3");
+                        if (pursuers.contains(sender)) {
+                            pursuers.remove(sender);
+                        }
+                    } else if (category.equals(locationUpdate)) {
+                        Log.i(TAG2, "Condition 2.4");
+                        if (message.equals(getNewLocation)) {
+                            if (stopSignal) {
+                                Log.i(TAG2, "Condition 2.4.2");
+                                warnStopSignal(sender);
+                            } else if (Soundpowerup) {
+                                record(sender);
+                            } else {
+                                Log.i(TAG2, "Condition 2.4.1");
+                                sendLocation(sender);
+                            }
+                        } else if (message.equals(giveNewLocation)) {
+                            if (sender.equals(TargetID)) {
+                                Log.i(TAG2, "Condition 2.4.2");
+                                progressDialog.dismiss();
+                                missedLocationUpdates = 0;
+                                targetpoints = points;
+                                try {
+                                    markerTarget.remove();
+                                    circleTarget.remove();
+                                } catch (Exception e) {
+                                    Log.i(TAG, e.toString());
+                                }
+                                updateTargetLocation(targetLocation);
+                            } else if (sender.equals(pursuer)) {
+                                try {
+                                    markerTarget2.remove();
+                                } catch (Exception e) {
+                                    Log.i(TAG, e.toString());
+                                }
+                                updatePursuerLocation(targetLocation);
+                            }
+                        } else if (message.equals("stopsignal")) {
                             progressDialog.dismiss();
                             missedLocationUpdates = 0;
                             targetpoints = points;
-                            try{
+                            Toast.makeText(gameMode.this, "Target blocked signal!", Toast.LENGTH_LONG).show();
+                        } else if (message.equals("giveNewSound")) {
+                            missedLocationUpdates = 0;
+                            try {
                                 markerTarget.remove();
                                 circleTarget.remove();
-                            } catch (Exception e){
-                                Log.i(TAG,e.toString());
+                            } catch (Exception e) {
+                                Log.i(TAG, e.toString());
                             }
-                            updateTargetLocation(targetLocation);
-                        } else if (sender.equals(pursuer)) {
-                            try{
-                                markerTarget2.remove();
-                            } catch (Exception e){
-                                Log.i(TAG,e.toString());
-                            }
-                            updatePursuerLocation(targetLocation);
+                            sound = (byte[]) data.get("sound");
+                            speelsound();
+                            Toast.makeText(gameMode.this, "music playing", Toast.LENGTH_SHORT).show();
                         }
-                    } else if (message.equals("stopsignal")) {
-                        progressDialog.dismiss();
-                        missedLocationUpdates = 0;
-                        targetpoints = points;
-                        Toast.makeText(gameMode.this, "Target blocked signal!", Toast.LENGTH_LONG).show();
-                    } else if (message.equals("giveNewSound")) {
-                        missedLocationUpdates = 0;
-                        try{
-                            markerTarget.remove();
-                            circleTarget.remove();
-                        } catch (Exception e){
-                            Log.i(TAG,e.toString());
-                        }
-                        sound = (byte[]) data.get("sound");
-                        speelsound();
-                        Toast.makeText(gameMode.this, "music playing", Toast.LENGTH_SHORT).show();
-                    }
 
 
-                } else if (category.equals(priorityCategory)) {
-                    Log.i(TAG2, "Condition 2.5");
-                    Log.i(TAG2, "Condition 2.5 part 2");
-                    if (Double.parseDouble(message) > prioritylevel) {
-                        Log.i(TAG2, "Condition 2.5.1");
-                        if (!sender.equals(previoustarget)){
-                            prioritylevel = Double.parseDouble(message);
-                            priorityID = sender;
+                    } else if (category.equals(priorityCategory)) {
+                        Log.i(TAG2, "Condition 2.5");
+                        Log.i(TAG2, "Condition 2.5 part 2");
+                        if (Double.parseDouble(message) > prioritylevel) {
+                            Log.i(TAG2, "Condition 2.5.1");
+                            if (!sender.equals(previoustarget)) {
+                                prioritylevel = Double.parseDouble(message);
+                                priorityID = sender;
+                            }
                         }
                     }
+                } else {
+                    Log.i(TAG2, "Condition 3");
                 }
-            } else {
-                Log.i(TAG2, "Condition 3");
-            }
         } catch (Exception e) {
             Log.i(TAG, e.toString());
         }
@@ -1412,6 +1443,36 @@ public class gameMode extends AppCompatActivity
             Toast.makeText(gameMode.this, "Not enough money..", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    public Integer findLowestUser(List Scores){
+        int minIndex = 0;
+        for (int i = 0; i < Scores.size(); i++){
+            int Score_1 = (Integer) Scores.get(i);
+            int Score_2 = (Integer) Scores.get(minIndex);
+            if (Score_1 < Score_2){
+                minIndex = i;
+            }
+        }
+
+
+        return minIndex;
+    }
+
+    public void sendEliminatedmessage(String sender){
+        JSONObject data = new JSONObject();
+        try{
+            data.put("sender", myusername);
+            data.put("receiver",TargetID);
+            data.put("category",eliminated);
+            data.put("message","");
+            data.put("points",mypoints);
+            data.put("latitude",loc.latitude);
+            data.put("longitude",loc.longitude);
+        } catch (JSONException e){
+            Log.i(TAG,e.toString());
+        }
+        mServercomm.sendMessage(data);
     }
 }
 
