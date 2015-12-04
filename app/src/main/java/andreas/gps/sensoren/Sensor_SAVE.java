@@ -1,5 +1,7 @@
 package andreas.gps.sensoren;
 
+import android.util.Log;
+
 /**
  * Created by Andreas on 10/11/2015.
  */

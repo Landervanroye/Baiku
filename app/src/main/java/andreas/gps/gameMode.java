@@ -61,6 +61,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.EmptyStackException;
 import java.util.Random;
@@ -78,8 +79,6 @@ public class gameMode extends AppCompatActivity
 
     //    variables
     public static SensorCollector sensorcol;
-
-    private Circle circleLoc;
     private Circle circleTarget;
     private double r = 5.0;
     private static final String TAG = "abcd";
@@ -95,11 +94,16 @@ public class gameMode extends AppCompatActivity
     public float zoomlevel = 18;
     public boolean zoomed = false;
     public LatLng loc;
-    Calendar c = Calendar.getInstance();
     private double mySpeed = 0;
     private int kill_button_counter = 0;
     Marker markerTarget2 = null;
     public boolean Soundpowerup = false;
+    public int powerUpDefensiveUpdateFrequencyPrice = 0;
+    public int powerUpOffensiveEasyKillPrice = 0;
+    public int powerUpDefensiveStopSignalPrice = 0;
+    public int powerUpDefensiveSoundPrice = 0;
+    public int powerUpDefensiveHardKillPrice = 0;
+    public int powerUpDefensivePursuerPrice = 0;
 
     //text kkillmoves
     public boolean killmoveinprogress = false;
@@ -122,6 +126,7 @@ public class gameMode extends AppCompatActivity
     private long killmovetimer = 30000;
     public boolean killmoveconfirmed = false;
 
+    public ArrayList<String> pursuers = new ArrayList<String>();
     public String myusername;
     Servercomm mServercomm = new Servercomm();
     public String NotifyOffline = "NotifyOffline";
@@ -129,7 +134,6 @@ public class gameMode extends AppCompatActivity
     public String getPriorities = "getPriorities";
     public String eliminated = "eliminated";
     public String pickedTarget = "pickedTarget";
-    public int huntedby = 0;
     public String locationUpdate = "locationUpdate";
     public String priorityID = "";
     public boolean easykill = false;
@@ -159,7 +163,7 @@ public class gameMode extends AppCompatActivity
     private Runnable FollowPursuer = new Runnable() {
         @Override
         public void run() {
-            requestLocationUpdate("");
+            requestLocationUpdate(pursuer);
             mHandler.postDelayed(FollowPursuer, 5000);
         }
     };
@@ -171,7 +175,6 @@ public class gameMode extends AppCompatActivity
     public boolean hardkill = false;
     public String previoustarget;
     public Runnable changeMessage = new Runnable() {
-
         @Override
         public void run() {
             if (!priorityID.equals("")) {
@@ -193,6 +196,15 @@ public class gameMode extends AppCompatActivity
         @Override
         public void run() {
             changeTarget();
+        }
+    };
+    public Runnable removePursuercallback = new Runnable(){
+
+        @Override
+        public void run() {
+            mHandler.removeCallbacks(FollowPursuer);
+            markerTarget2.remove();
+            pursuer = "";
         }
     };
 
@@ -256,8 +268,6 @@ public class gameMode extends AppCompatActivity
 
         Log.i(TAG, "Oncreate success");
     }
-
-
     public void assignTargetLocationRequest(){
         targetLocationRequest = new Runnable() {
             @Override
@@ -296,6 +306,7 @@ public class gameMode extends AppCompatActivity
         mHandler.removeCallbacks(FollowPursuer);
         mHandler.removeCallbacks(changeTargetRunnable);
         mHandler.removeCallbacks(changeMessage);
+        mHandler.removeCallbacks(removePursuercallback);
         mServercomm.mSocket.disconnect();
     }
     @Override
@@ -328,7 +339,7 @@ public class gameMode extends AppCompatActivity
         mypoints = data.intValue();
         mymoney += mypoints;
         points_score.setText(String.format("%d", mypoints));
-        mHandler.postDelayed(changeTargetRunnable,1000);
+        mHandler.postDelayed(changeTargetRunnable, 1000);
         Log.i(TAG, "got score");
 
     }
@@ -501,6 +512,7 @@ public class gameMode extends AppCompatActivity
     public void killMovegenerator() {
         killmoveinprogress = true;
         mHandler.removeCallbacks(targetLocationRequest);
+        mHandler.removeCallbacks(changeMessage);
         Log.i(TAG,"generating killmove");
         Random rand = new Random();
         SensorActor sensorsave = new Sensor_SAVE();
@@ -778,7 +790,7 @@ public class gameMode extends AppCompatActivity
             }
 
             public void onFinish() {
-                Log.i(TAG,"killmove speed ended");
+                Log.i(TAG, "killmove speed ended");
                 killmoveconfirmed=false;
                 if (killMoveText.getText() == killedText) {
                     Log.i(TAG,"killed!");
@@ -977,7 +989,7 @@ public class gameMode extends AppCompatActivity
             Log.i(TAG,e.toString());
         }
         killmoveinprogress = false;
-        prioritylevel = 0;
+        prioritylevel = -100;
         priorityID = "";
         JSONObject data = new JSONObject();
         try {
@@ -1001,7 +1013,7 @@ public class gameMode extends AppCompatActivity
             Log.i(TAG, e.toString());
         }
 
-        mHandler.postDelayed(changeMessage, 2000);
+        mHandler.postDelayed(changeMessage, 4000);
     }
     public void notifyHunting() {
         JSONObject data = new JSONObject();
@@ -1082,9 +1094,8 @@ public class gameMode extends AppCompatActivity
             //TextView points_score = (TextView) findViewById(R.id.points_score);
             //String points_str = (String) points_score.getText();
             //int points_int = Integer.parseInt(points_str);
-            int points_int = 1000;
-            double priority = 2 * Math.log10(points_int);
-            priority -= huntedby;
+            double priority = 2 * Math.log10(mypoints+10);
+            priority -= pursuers.size();
             JSONObject data = new JSONObject();
             try {
                 data.put("sender", myusername);
@@ -1100,20 +1111,10 @@ public class gameMode extends AppCompatActivity
             mServercomm.sendMessage(data);
         }
     }
-    public void gotEliminated(String sender, String message){
-        Log.i(TAG,"gotEliminated");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Aww.");
-        builder.setMessage("You got killed by +" + sender + " for " + message + " points.");
-        builder.setPositiveButton("Continue playing", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                // halveer punten ofzo
-            }
-        });
-        Dialog alertDialog = builder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        builder.show();
+    public void gotEliminated(String sender){
+        Log.i(TAG, "gotEliminated");
+        Toast.makeText(gameMode.this, "You got killed by "+sender, Toast.LENGTH_SHORT).show();
+        mypoints *=0.8;
     }
     public void sendLocation(String sender) {
         Log.i(TAG, "sending location");
@@ -1194,14 +1195,12 @@ public class gameMode extends AppCompatActivity
             Log.i(TAG2, points.toString());
             if (receiver.equals("") && !(sender.equals(myusername))) {
                 Log.i(TAG2, "Condition 1");
-                if (message.equals(NotifyOffline) && sender.equals(TargetID)) {
+                if (message.equals(NotifyOffline) && sender.equals(TargetID) && !killmoveinprogress) {
                     Log.i(TAG2, "Condition 1.1");
                     changeTarget();
-                } else if (message.equals(getPriorities)) {
+                } else if (message.equals(getPriorities) && !sender.equals(TargetID)) {
                     Log.i(TAG2, "Condition 1.2");
                     sendPriority(sender,targetLocation);
-                } else if (category.equals(locationUpdate) && sender.equals(TargetID)){
-                    sendLocation(sender);
                 } else if (message.equals("HardKill") && sender.equals(TargetID)) {
                     hardkill = true;
                 }
@@ -1209,13 +1208,18 @@ public class gameMode extends AppCompatActivity
                 Log.i(TAG2, "Condition 2");
                 if (category.equals(eliminated)) {
                     Log.i(TAG2, "Condition 2.1");
-                    gotEliminated(sender, message);
+                    gotEliminated(sender);
+                    if (pursuers.contains(sender)){
+                        pursuers.remove(sender);
+                    }
                 } else if (category.equals(pickedTarget)) {
                     Log.i(TAG2, "Condition 2.2");
-                    huntedby += 1;
+                    pursuers.add(sender);
                 } else if (category.equals(NotifyOffline)) {
                     Log.i(TAG2, "Condition 2.3");
-                    huntedby -= 1;
+                    if (pursuers.contains(sender)){
+                        pursuers.remove(sender);
+                    }
                 } else if (category.equals(locationUpdate)) {
                     Log.i(TAG2, "Condition 2.4");
                     if (message.equals(getNewLocation)) {
@@ -1241,8 +1245,7 @@ public class gameMode extends AppCompatActivity
                                 Log.i(TAG,e.toString());
                             }
                             updateTargetLocation(targetLocation);
-                        } else if (sender.equals(pursuer) || pursuer.equals("")) {
-                            pursuer = sender;
+                        } else if (sender.equals(pursuer)) {
                             try{
                                 markerTarget2.remove();
                             } catch (Exception e){
@@ -1308,54 +1311,67 @@ public class gameMode extends AppCompatActivity
         Log.i(TAG,"menu");
         int id = menuItem.getItemId();
         if (id == R.id.powerUpDefensiveUpdateFrequency) {
-            frequencyUpdate /= 2;
-            Log.i(TAG, "powerupDefensiveUpdateFrequency");
-            mHandler.removeCallbacks(targetLocationRequest);
-            assignTargetLocationRequest();
-            targetLocationRequest.run();
-            mHandler.removeCallbacks(targetLocationRequest);
-            frequencyUpdate *= 2;
-            assignTargetLocationRequest();
-            targetLocationRequest.run();
+            if (orderPowerUp(powerUpDefensiveUpdateFrequencyPrice)) {
+                frequencyUpdate /= 2;
+                Log.i(TAG, "powerupDefensiveUpdateFrequency");
+                mHandler.removeCallbacks(targetLocationRequest);
+                assignTargetLocationRequest();
+                targetLocationRequest.run();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHandler.removeCallbacks(targetLocationRequest);
+                        frequencyUpdate *= 2;
+                        assignTargetLocationRequest();
+                        targetLocationRequest.run();
+                    }
+                },320000);
+            }
 
         } else if (id == R.id.powerUpOffensiveEasyKill) {
-            easykill = true;
+            if (orderPowerUp(powerUpOffensiveEasyKillPrice)) {
+                easykill = true;
+            }
         } else if (id == R.id.powerUpDefensiveStopSignal) {
-            stopSignal = true;
-            mHandler.postDelayed(new Runnable() {
+            if (orderPowerUp(powerUpDefensiveStopSignalPrice)) {
+                stopSignal = true;
+                mHandler.postDelayed(new Runnable() {
 
-                @Override
-                public void run() {
-                    stopSignal = false;
-                }
-            }, 120000);
+                    @Override
+                    public void run() {
+                        stopSignal = false;
+                    }
+                }, 120000);
+            }
         } else if (id == R.id.powerUpDefensiveSound) {
-            Log.i(TAG,"soundpowerup activated");
-            Soundpowerup = true;
-            mHandler.postDelayed(new Runnable(){
+            if (orderPowerUp(powerUpDefensiveSoundPrice)) {
+                Log.i(TAG, "soundpowerup activated");
+                Soundpowerup = true;
+                mHandler.postDelayed(new Runnable() {
 
-                @Override
-                public void run() {
-                    Log.i(TAG,"soundpowerup disactivated");
-                    Soundpowerup = false;
-                }
-            },300000);
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "soundpowerup disactivated");
+                        Soundpowerup = false;
+                    }
+                }, 300000);
+            }
         } else if (id == R.id.powerUpDefensivePursuer) {
-            FollowPursuer.run();
-            mHandler.postDelayed(FollowPursuer, 5000);
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mHandler.removeCallbacks(FollowPursuer);
-                    markerTarget2.remove();
+            if (pursuers.size()>0) {
+                if (orderPowerUp(powerUpDefensivePursuerPrice)) {
+                    FollowPursuer.run();
+                    mHandler.postDelayed(removePursuercallback,320000);
                 }
-            }, 120000);
+            } else {
+                Toast.makeText(gameMode.this, "You have no pursuers", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.powerUpDefensiveHardKill){
-            sendHardKillMessage();
+            if (orderPowerUp(powerUpDefensiveHardKillPrice)) {
+                sendHardKillMessage();
+            }
         }
         return super.onOptionsItemSelected(menuItem);
     }
-
     public void sendHardKillMessage(){
         JSONObject data = new JSONObject();
         try {
@@ -1371,7 +1387,6 @@ public class gameMode extends AppCompatActivity
         }
         mServercomm.sendMessage(data);
     }
-
     @Override
     public void onBackPressed(){
         if (pressquit){
@@ -1389,6 +1404,16 @@ public class gameMode extends AppCompatActivity
         }
     }
 
+    public Boolean orderPowerUp(Integer price){
+        if (mymoney>price){
+            mymoney -= price;
+            Toast.makeText(gameMode.this, "Power-up activated.", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            Toast.makeText(gameMode.this, "Not enough money..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
 }
 
 

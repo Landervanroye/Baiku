@@ -49,5 +49,39 @@
     <string name="label_shop">Shop</string>
     <string name="buy_text">Buy</string>
     <string name="login_button_text">Login</string>
+    <string name="HowToPowerUps">Power Ups</string>
+    <string name="HowToIncreaseUpdateFrequency">Increase update frequency</string>
+    <string name="HowToOffensiveUpdateFrequency">powerUpOffensiveUpdateFrequency</string>
+    <string name="HowToOffensiveUpdateFrequencyText">Dit versnelt de hoeveelheid updates per
+        minuut deze staan standard op 32 seconden. Dit zal bij elke aankoop gedeeld worden door 2
+        en dit blijft zo gedurende 4 minuten maar zal na deze tijd weer verdubbelen.</string>
+    <string name="HowToOffensiveEasyKill">powerUpOffensiveEasyKill</string>
+    <string name="HowToOffensiveEasyKillText"> Als je deze power up koopt zal je volgende kill move
+        30 keer een knop indrukken worden. Dit is de gemakkelijkste kill move van het spel!
+    </string>
+    <string name="HowToDefensiveStopSignal">powerUpDefensiveStopSignal</string>
+    <string name="HowToDefensiveStopSignalText">Dit zal de update van je postitie voor de personen
+        die op je jagen stoppen gedurende 2 minuten. Dit geeft de kans om je jager te ontlopen.
+    </string>
+    <string name="HowToDefensiveSound">powerUpDefensiveSound</string>
+    <string name="HowToDefensiveSoundText">Gederunde 2 minuten krijgt de jager geen positie van je
+        door maar hoort hij je enkel.</string>
+    <string name="HowToDefensivePursuer">powerUpDefensivePursuer</string>
+    <string name="HowToDefensivePursuerText">Dit geeft de loctaie van je achtervolger weer
+        gedurende 4 min en wordt vernieuwd elke 5 seconden.</string>
+    <string name="HowToDefensiveUpdateFrequency">powerUpDefensiveUpdateFrequency</string>
+    <string name="HowToDefensiveUpdateFrequencyText">Dit vertraagt de hoeveelheid updates per minuut
+        voor je achtervolger. Deze staan standard op 32 seconden en dit zal bij elke aankoop
+        vermenegvuldigd worden door 2 en dit blijft zo gedurende 4 minuten
+        maar zal na deze tijd weer halveren.</string>
+    <string name="HowToDefensiveHardKill">powerUpDefensiveHardKill</string>
+    <string name="HowToDefensiveHardKillText">Je achtervolger zal de snelheid killmove moeten
+        uitvoeren. Dus kies je locatie wijs en dit zal hem niet lukken!</string>
+    <string name="HowToGamePlayText">Ga op je fiets zitten en start de app.
+        Je zal een target aangewezen krijgen en daarop zal je gaan jagen! Probeer bij hem in de
+        buurt te geraken en voer de killmove uit! Als het lukt krijg je punten bij, zoniet zal je
+        een nieuw target krijgen. Maar pas op het kan zijn dat er ondertussen iemand op jou jaagt
+        als hij jou te pakken krijgt zal jij ook punten verliezen. Dus kijk goed rond voor mogelijk
+        gevaar. </string>
 
 </resources>
