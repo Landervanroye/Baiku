@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">andreas</string>
-    <string name="title_activity_main_int">DaGame</string>
+    <string name="app_name">Baiku</string>
+    <string name="title_activity_main_int">Baiku</string>
     <string name="coordinates">No coordinates to display :(</string>
     <string name="main_menu">menu</string>
     <string name="emptyMenu">no information to display</string>
@@ -83,5 +83,6 @@
         een nieuw target krijgen. Maar pas op het kan zijn dat er ondertussen iemand op jou jaagt
         als hij jou te pakken krijgt zal jij ook punten verliezen. Dus kijk goed rond voor mogelijk
         gevaar. </string>
+    <string name="mypoints">mypoints</string>
 
 </resources>

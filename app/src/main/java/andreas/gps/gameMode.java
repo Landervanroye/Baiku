@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -203,11 +204,16 @@ public class gameMode extends AppCompatActivity
         @Override
         public void run() {
             mHandler.removeCallbacks(FollowPursuer);
-            markerTarget2.remove();
+            try {
+                markerTarget2.remove();
+            } catch (Exception e){
+                Log.i(TAG, e.toString());
+            }
             pursuer = "";
         }
     };
     public JSONObject top10 = new JSONObject();
+    public MenuItem money;
 
     //Lifecycle
     @Override
@@ -251,7 +257,7 @@ public class gameMode extends AppCompatActivity
         SensorActor sensorsave = new Sensor_SAVE();
         sensorcol = new SensorCollector(sensorsave);
         sensorcol.start(getApplicationContext());
-        myusername = preferences.getString("myusername","unknown");
+        myusername = preferences.getString("myusername", "unknown");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -262,8 +268,11 @@ public class gameMode extends AppCompatActivity
                 .setInterval(5000)        // 5 seconds, in milliseconds
                 .setFastestInterval(1000); // 1 second, in milliseconds
         assignTargetLocationRequest();
+        Menu mymenu = navigationView.getMenu();
+        money = mymenu.findItem(R.id.mypoints);
         ////////////// test
         //killMoveAccelor();
+
 
         Log.i(TAG, "Oncreate success");
     }
@@ -337,6 +346,7 @@ public class gameMode extends AppCompatActivity
         mymoney = preferences.getInt("mymoney",0);
         mypoints = data.intValue();
         mymoney += mypoints;
+        money.setTitle("My Money: "+Integer.toString(mymoney));
         points_score.setText(String.format("%d", mypoints));
         mHandler.postDelayed(changeTargetRunnable, 1000);
         Log.i(TAG, "got score");
@@ -443,6 +453,75 @@ public class gameMode extends AppCompatActivity
         Dialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         builder.show();
+    }
+
+
+    public void show_haikuman(){
+        ImageView image = new ImageView(this);
+        image.setImageResource(R.drawable.haikuman);
+        String Haiku = generate_random_Haiku();
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this).
+                        setMessage(Haiku).
+                        setPositiveButton("Thanks Old Man!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).
+                        setView(image);
+        builder.create();
+        builder.show();
+    }
+
+    public String generate_random_Haiku(){
+        String haiku;
+        Random rand = new Random();
+        int randomNum = rand.nextInt(9);
+        List<String> haiku_list = new ArrayList<>();
+        haiku_list.add("The wren\n" +
+                "Earns his living\n" +
+                "Noiselessly.\n" +
+                "- Kobayahsi Issa");
+        haiku_list.add("From time to time\n" +
+                "The clouds give rest\n" +
+                "To the moon-beholders.\n" +
+                "- Matsuo Bashō");
+        haiku_list.add("Over-ripe sushi,\n" +
+                "The Master\n" +
+                "Is full of regret.\n" +
+                "- Yosa Buson");
+        haiku_list.add("Consider me\n" +
+                "As one who loved poetry\n" +
+                "And persimmons.\n" +
+                "- Masaoaka Shiki");
+        haiku_list.add("In the cicada's cry\n" +
+                "No sign can foretell\n" +
+                "How soon it must die.\n" +
+                "- Matsuo Bashō");
+        haiku_list.add("Blowing from the west\n" +
+                "Fallen leaves gather\n" +
+                "In the east.\n" +
+                "- Yosa Buson");
+        haiku_list.add("Winter seclusion -\n" +
+                "Listening, that evening,\n" +
+                "To the rain in the mountain.\n" +
+                "- Kobayashi Issa");
+        haiku_list.add("Don’t weep, insects –\n" +
+                "Lovers, stars themselves,\n" +
+                "Must part.\n" +
+                "- Kobayashi Issa");
+        haiku_list.add("My life, -\n" +
+                "How much more of it remains?\n" +
+                "The night is brief.\n" +
+                "- Masaoka Shiki");
+        haiku_list.add("An old silent pond...\n" +
+                "A frog jumps into the pond,\n" +
+                "splash! Silence again.\n" +
+                "- Matsuo Bashō");
+        haiku = haiku_list.get(randomNum);
+        return haiku;
     }
     private void handleNewLocation(Location location) {
         loc = new LatLng(location.getLatitude(), location.getLongitude());
@@ -612,6 +691,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    money.setTitle("My Money: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -619,6 +699,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setText(killedNotText);
                     killMoveText.setVisibility(View.GONE);
                 }
+                show_haikuman();
                 changeTarget();
             }
         }.start();
@@ -650,11 +731,12 @@ public class gameMode extends AppCompatActivity
                 Log.i(TAG, "killmove sound ended");
                 killmoveconfirmed=false;
                 if (killMoveText.getText() == killedText) {
-                    Log.i(TAG,"killed");
+                    Log.i(TAG, "killed");
                     killMoveText.setText(killedPointsAddedText);
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    money.setTitle("My Money: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(String.format("%d", mypoints));
                 } else {
@@ -662,6 +744,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setText(killedNotText);
                     killMoveText.setVisibility(View.GONE);
                 }
+                show_haikuman();
                 changeTarget();
 
             }
@@ -707,6 +790,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    money.setTitle("My Money: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -714,6 +798,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setText(killedNotText);
                     killMoveText.setVisibility(View.GONE);
                 }
+                show_haikuman();
                 changeTarget();
 
             }
@@ -759,6 +844,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    money.setTitle("My Money: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -766,6 +852,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setText(killedNotText);
                     killMoveText.setVisibility(View.GONE);
                 }
+                show_haikuman();
                 changeTarget();
 
             }
@@ -800,6 +887,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    money.setTitle("My Money: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -807,6 +895,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setText(killedNotText);
                     killMoveText.setVisibility(View.GONE);
                 }
+                show_haikuman();
                 changeTarget();
 
             }
@@ -849,6 +938,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
+                    money.setTitle("My Money: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -856,6 +946,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setText(killedNotText);
                     killMoveText.setVisibility(View.GONE);
                 }
+                show_haikuman();
                 changeTarget();
 
             }
@@ -984,6 +1075,11 @@ public class gameMode extends AppCompatActivity
         }
     }
     public void changeTarget() {
+        try{
+            alertDialog.cancel();
+        } catch (Exception e){
+            Log.i(TAG,e.toString());
+        }
         Log.i(TAG, "changeTarget");
         previoustarget = TargetID;
         TargetID = "";
@@ -1036,11 +1132,6 @@ public class gameMode extends AppCompatActivity
         mServercomm.sendMessage(data);
     }
     public void show_alertdialog_target(){
-        try{
-            alertDialog.cancel();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
         Log.i(TAG, "show_alertdialog_target");
         builder = new AlertDialog.Builder(this);
         builder.setTitle("No target found :(");
@@ -1437,6 +1528,7 @@ public class gameMode extends AppCompatActivity
     public Boolean orderPowerUp(Integer price){
         if (mymoney>price){
             mymoney -= price;
+            money.setTitle("My Money: "+Integer.toString(mymoney));
             Toast.makeText(gameMode.this, "Power-up activated.", Toast.LENGTH_SHORT).show();
             return true;
         } else {
@@ -1474,6 +1566,8 @@ public class gameMode extends AppCompatActivity
         }
         mServercomm.sendMessage(data);
     }
+
+
 }
 
 
