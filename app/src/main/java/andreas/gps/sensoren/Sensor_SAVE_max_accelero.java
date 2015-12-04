@@ -21,11 +21,11 @@ public class Sensor_SAVE_max_accelero extends SensorActor {
     private float rotz;
     private float licht;
 
-    private float maxXaccelero =0;
+    private float maxNormAccelero =0;
     private float maxXgyro = 0;
 
-    public float getMaxXaccelero() {
-        return maxXaccelero;
+    public float getMaxNormAccelero() {
+        return maxNormAccelero;
     }
 
     public float getMaxXgyro() {
@@ -100,9 +100,10 @@ public class Sensor_SAVE_max_accelero extends SensorActor {
         accelerox=x;
         acceleroy=y;
         acceleroz=z;
-        if (Math.abs(accelerox)>Math.abs(maxXaccelero)){
-            maxXaccelero =Math.abs(accelerox);
-            Log.i("newmaxX", String.valueOf(maxXaccelero));
+        float norm = (float) Math.sqrt(x*x+y*y+z*z);
+        if (Math.abs(norm)>Math.abs(maxNormAccelero)){
+            maxNormAccelero =Math.abs(norm);
+            Log.i("newmaxX", String.valueOf(maxNormAccelero));
         }
     }
 

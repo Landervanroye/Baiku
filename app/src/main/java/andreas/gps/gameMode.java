@@ -591,7 +591,7 @@ public class gameMode extends AppCompatActivity
 
                 try {
 
-                    if (sensorsave.getMaxXaccelero() > killmoveAcellorValue) {
+                    if (sensorsave.getMaxNormAccelero() > killmoveAcellorValue) {
                         killMoveText.setText(killedText);
                         killmoveconfirmed=true;
 
