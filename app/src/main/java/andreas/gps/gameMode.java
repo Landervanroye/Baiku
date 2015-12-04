@@ -99,12 +99,12 @@ public class gameMode extends AppCompatActivity
     private int kill_button_counter = 0;
     Marker markerTarget2 = null;
     public boolean Soundpowerup = false;
-    public int powerUpDefensiveUpdateFrequencyPrice = 0;
-    public int powerUpOffensiveEasyKillPrice = 0;
-    public int powerUpDefensiveStopSignalPrice = 0;
-    public int powerUpDefensiveSoundPrice = 0;
-    public int powerUpDefensiveHardKillPrice = 0;
-    public int powerUpDefensivePursuerPrice = 0;
+    public int powerUpDefensiveUpdateFrequencyPrice = 80;
+    public int powerUpOffensiveEasyKillPrice = 50;
+    public int powerUpDefensiveStopSignalPrice = 120;
+    public int powerUpDefensiveSoundPrice = 100;
+    public int powerUpDefensiveHardKillPrice = 150;
+    public int powerUpDefensivePursuerPrice = 75;
 
     //text kkillmoves
     public boolean killmoveinprogress = false;
@@ -249,7 +249,7 @@ public class gameMode extends AppCompatActivity
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         activeNetwork = connectivityManager.getActiveNetworkInfo();
-        preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         editor = preferences.edit();
         editor.apply();
         audioFilePath = getFilesDir().getAbsolutePath()+"abc.3gp";
@@ -315,7 +315,7 @@ public class gameMode extends AppCompatActivity
         mHandler.removeCallbacks(changeTargetRunnable);
         mHandler.removeCallbacks(changeMessage);
         mHandler.removeCallbacks(removePursuercallback);
-        mServercomm.mSocket.disconnect();
+        mServercomm.disconnect();
     }
     @Override
     protected void onResume() {
@@ -341,7 +341,7 @@ public class gameMode extends AppCompatActivity
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) gps_connected = true;
         Log.i(TAG, "Connecting apiclient");
         mGoogleApiClient.connect();
-        mServercomm.mSocket.connect();
+        mServercomm.connect();
         Log.i(TAG, "getting score");
         mymoney = preferences.getInt("mymoney",0);
         mypoints = data.intValue();
