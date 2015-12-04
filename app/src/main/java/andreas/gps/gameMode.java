@@ -62,7 +62,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.EmptyStackException;
 import java.util.Random;
 
@@ -593,7 +592,7 @@ public class gameMode extends AppCompatActivity
 
                 try {
 
-                    if (sensorsave.getMaxXaccelero() > killmoveAcellorValue) {
+                    if (sensorsave.getMaxNormAccelero() > killmoveAcellorValue) {
                         killMoveText.setText(killedText);
                         killmoveconfirmed=true;
 
