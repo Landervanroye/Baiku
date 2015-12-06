@@ -346,7 +346,7 @@ public class gameMode extends AppCompatActivity
         mymoney = preferences.getInt("mymoney",0);
         mypoints = data.intValue();
         mymoney += mypoints;
-        money.setTitle("My Money: "+Integer.toString(mymoney));
+        money.setTitle("Baikoins: "+Integer.toString(mymoney));
         points_score.setText(String.format("%d", mypoints));
         mHandler.postDelayed(changeTargetRunnable, 1000);
         Log.i(TAG, "got score");
@@ -371,7 +371,6 @@ public class gameMode extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.toolbar_buttons_gamemode, menu);
         return true;
     }
 
@@ -691,7 +690,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
-                    money.setTitle("My Money: "+Integer.toString(mymoney));
+                    money.setTitle("Baikoins: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -736,7 +735,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
-                    money.setTitle("My Money: "+Integer.toString(mymoney));
+                    money.setTitle("Baikoins: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(String.format("%d", mypoints));
                 } else {
@@ -790,7 +789,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
-                    money.setTitle("My Money: "+Integer.toString(mymoney));
+                    money.setTitle("Baikoins: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -844,7 +843,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
-                    money.setTitle("My Money: "+Integer.toString(mymoney));
+                    money.setTitle("Baikoins: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -887,7 +886,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
-                    money.setTitle("My Money: "+Integer.toString(mymoney));
+                    money.setTitle("Baikoins: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -938,7 +937,7 @@ public class gameMode extends AppCompatActivity
                     killMoveText.setVisibility(View.GONE);
                     mypoints += 100;
                     mymoney += 100;
-                    money.setTitle("My Money: "+Integer.toString(mymoney));
+                    money.setTitle("Baikoins: "+Integer.toString(mymoney));
                     sendEliminatedmessage(TargetID);
                     points_score.setText(Integer.toString(mypoints));
                 } else {
@@ -1484,7 +1483,7 @@ public class gameMode extends AppCompatActivity
                     mHandler.postDelayed(removePursuercallback,320000);
                 }
             } else {
-                Toast.makeText(gameMode.this, "You have no pursuers", Toast.LENGTH_SHORT).show();
+                Toast.makeText(gameMode.this, "Nobody is Hunting you.", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.powerUpDefensiveHardKill){
             if (orderPowerUp(powerUpDefensiveHardKillPrice)) {
@@ -1511,9 +1510,10 @@ public class gameMode extends AppCompatActivity
     @Override
     public void onBackPressed(){
         if (pressquit){
+            pressquit = false;
             startActivity(new Intent(this,mainInt.class));
         } else {
-            Toast.makeText(gameMode.this, "Press again to quit the game.", Toast.LENGTH_LONG).show();
+            Toast.makeText(gameMode.this, "Press again to quit the game.", Toast.LENGTH_SHORT).show();
             pressquit = true;
             mHandler.postDelayed(new Runnable(){
 
@@ -1525,14 +1525,14 @@ public class gameMode extends AppCompatActivity
         }
     }
 
-    public Boolean orderPowerUp(Integer price){
+    public boolean orderPowerUp(Integer price){
         if (mymoney>price){
             mymoney -= price;
-            money.setTitle("My Money: "+Integer.toString(mymoney));
+            money.setTitle("Baikoins: "+Integer.toString(mymoney));
             Toast.makeText(gameMode.this, "Power-up activated.", Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(gameMode.this, "Not enough money..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(gameMode.this, "Not enough Baikoins...", Toast.LENGTH_SHORT).show();
             return false;
         }
     }

@@ -6,14 +6,17 @@
 
     </item>
     <item android:title="@string/powerUpOffensive">
+
         <menu>
             <item
                 android:id="@+id/powerUpOffensiveUpdateFrequency"
                 android:title="@string/powerUpOffensiveUpdateFrequency"
+                android:icon="@drawable/sword"
                 />
             <item
                 android:id="@+id/powerUpOffensiveEasyKill"
                 android:title="@string/powerUpOffensiveEasyKill"
+                android:icon="@drawable/sword"
                 />
         </menu>
     </item>
@@ -22,26 +25,32 @@
             <item
                 android:id="@+id/powerUpDefensiveStopSignal"
                 android:title="@string/powerUpDefensiveStopSignal"
+                android:icon="@drawable/shield"
                 />
             <item
                 android:id="@+id/powerUpDefensivePictures"
                 android:title="@string/powerUpDefensivePictures"
+                android:icon="@drawable/shield"
                 />
             <item
                 android:id="@+id/powerUpDefensiveSound"
                 android:title="@string/powerUpDefensiveSound"
+                android:icon="@drawable/shield"
                 />
             <item
                 android:id="@+id/powerUpDefensivePursuer"
                 android:title="@string/powerUpDefensivePursuer"
+                android:icon="@drawable/shield"
                 />
             <item
                 android:id="@+id/powerUpDefensiveUpdateFrequency"
                 android:title="@string/powerUpDefensiveUpdateFrequency"
+                android:icon="@drawable/shield"
                 />
             <item
                 android:id="@+id/powerUpDefensiveHardKill"
                 android:title="@string/powerUpDefensiveHardKill"
+                android:icon="@drawable/shield"
                 />
         </menu>
     </item>
