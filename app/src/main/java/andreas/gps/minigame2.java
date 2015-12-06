@@ -11,9 +11,6 @@ import android.widget.Toast;
 
 
 
-/**
- * Created by Andreas on 22/10/2015.
- */
 public class minigame2 extends AppCompatActivity {
 
 

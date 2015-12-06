@@ -172,8 +172,8 @@ public class mainInt extends AppCompatActivity
         login = mymenu.findItem(R.id.login_toolbar);
         logout = mymenu.findItem(R.id.logout_toolbar);
         user = mymenu.findItem(R.id.user_toolbar);
-        preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-        editor = getSharedPreferences("MyPreferences",Context.MODE_PRIVATE).edit();
+        preferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+        editor = preferences.edit();
     }
 
 
@@ -288,7 +288,7 @@ public class mainInt extends AppCompatActivity
                 Log.i(TAG, "clicked!");
                 Log.i(TAG, String.valueOf(latLng));
                 Log.i(TAG, "moving camera");
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomlevel));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomlevel));
             }
         });
     }

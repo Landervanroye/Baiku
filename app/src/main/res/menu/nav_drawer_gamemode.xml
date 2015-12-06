@@ -24,8 +24,8 @@
                 android:title="@string/powerUpDefensiveStopSignal"
                 />
             <item
-                android:id="@+id/powerUpDefensivePictures"
-                android:title="@string/powerUpDefensivePictures"
+                android:id="@+id/powerUpDefensiveNoExtraPursuers"
+                android:title="@string/powerUpDefensiveNoExtraPursuers"
                 />
             <item
                 android:id="@+id/powerUpDefensiveSound"
@@ -34,10 +34,6 @@
             <item
                 android:id="@+id/powerUpDefensivePursuer"
                 android:title="@string/powerUpDefensivePursuer"
-                />
-            <item
-                android:id="@+id/powerUpDefensiveUpdateFrequency"
-                android:title="@string/powerUpDefensiveUpdateFrequency"
                 />
             <item
                 android:id="@+id/powerUpDefensiveHardKill"

@@ -51,10 +51,7 @@ public class SoundAct extends AppCompatActivity {
 
             try {
                 mRecorder.prepare();
-            } catch (IllegalStateException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (IllegalStateException | IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -78,10 +75,7 @@ public class SoundAct extends AppCompatActivity {
         Log.w("actsound test", String.valueOf(test));
 
     }
-    public int get_sound() {
-        Log.w("getsound",String.valueOf(test) );
-        return test;
-    }
+
 
 
 

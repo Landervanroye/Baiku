@@ -9,9 +9,7 @@ import android.hardware.SensorManager;
 
 import java.text.DecimalFormat;
 
-/**
- * Created by Steven on 20/11/2015.
- */
+
 public class SensorActAcc extends Activity implements SensorEventListener {
 
     private SensorManager sensorManager;

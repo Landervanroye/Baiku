@@ -55,7 +55,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         login_button.setOnClickListener(this);
         register_text.setOnClickListener(this);
 
-        preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         editor = preferences.edit();
         editor.apply();
 

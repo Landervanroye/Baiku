@@ -19,7 +19,7 @@ public class Servercomm extends Activity {
 
     public JSONObject receivedmessage;
     String TAG = "abcd";
-    public Socket mSocket;
+    private Socket mSocket;
     static ServercommEventListener mCallback;
 
 
@@ -32,8 +32,8 @@ public class Servercomm extends Activity {
 
         try {
             JSONObject obj = new JSONObject();
-            obj.put("groupid", "B3_test");
-            obj.put("sessionid", "666");
+            obj.put("groupid", "CW1B3");
+            obj.put("sessionid", "1");
             obj.put("data", data);
             mSocket.emit("broadcast", obj);
         } catch (JSONException e) {
@@ -42,9 +42,6 @@ public class Servercomm extends Activity {
         Log.i(TAG, "message sent");
     }
 
-    public void connect(){
-        mSocket.connect();
-    }
 
     public void disconnect(){
         mSocket.disconnect();
@@ -86,11 +83,11 @@ public class Servercomm extends Activity {
         }
         mSocket.on("broadcastReceived", onNewMessage);
 
-
+        mSocket.connect();
         try {
             JSONObject obj = new JSONObject();
-            obj.put("groupid", "B3_test");
-            obj.put("sessionid", "666");
+            obj.put("groupid", "CW1B3");
+            obj.put("sessionid", "1");
             mSocket.emit("register", obj);
         } catch (JSONException e) {
             e.printStackTrace();

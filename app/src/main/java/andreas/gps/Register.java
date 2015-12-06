@@ -52,8 +52,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        sharedpreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-        editor = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE).edit();
+        sharedpreferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+        editor = getSharedPreferences("myPreferences", Context.MODE_PRIVATE).edit();
         login_register_edit = (EditText) findViewById(R.id.login_register_edit);
         password_register_edit = (EditText) findViewById(R.id.password_register_edit);
         email_edit = (EditText) findViewById(R.id.email_edit);

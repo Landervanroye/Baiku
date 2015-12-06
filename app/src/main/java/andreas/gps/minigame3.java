@@ -9,9 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * Created by Steven on 20/11/2015.
- */
 public class minigame3 extends AppCompatActivity {
 
     public SensorActMF MagneticField;
