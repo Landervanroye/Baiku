@@ -82,7 +82,7 @@ public class minigame1 extends AppCompatActivity {
                     motivation.setText("Hmm... Maybe next time!");
                 } else {
                     Toast.makeText(getApplicationContext(),"You weren't on your bike and cheated. You lost", Toast.LENGTH_LONG).show();
-                    motivation.setText("You lost the game because of cheating. If you didn't, you should try a career as a professional cyclist");
+                    motivation.setText("You lost the game because of cheating. If you didn't, you should try a career as a professional cyclist!");
                 }
 
             }
