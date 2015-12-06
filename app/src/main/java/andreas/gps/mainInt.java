@@ -91,6 +91,8 @@ public class mainInt extends AppCompatActivity
         user.setEnabled(false);
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("Not logged in");
+        Toast.makeText(this, "You are now logged out.", Toast.LENGTH_SHORT).show();
+
     }
     public void switchUser(){}
     public void switchData1() {

@@ -379,10 +379,9 @@ public class gameMode extends AppCompatActivity
         mGoogleApiClient.connect();
         mServercomm = new Servercomm();
         Log.i(TAG, "getting score");
-        mymoney = personalPreferences.getInt("mymoney",0);
+        mymoney = personalPreferences.getInt("mymoney", 0);
         mypoints = data.intValue();
         mymoney += mypoints;
-        mymoney += 10000;
         money.setTitle("My Money: " + Integer.toString(mymoney));
         points_score.setText(String.format("%d", mypoints));
         mHandler.postDelayed(changeTargetRunnable, 1000);
@@ -637,63 +636,58 @@ public class gameMode extends AppCompatActivity
         sensorcol.set(sensorsave);
         sensorcol.start(getApplicationContext());
         int random = rand.nextInt(7);
-        if (myusername.equals("wout")){
-            killMovelight();
-        } else {
+        if (easykill) {
             killMovePressButton();
+            easykill = false;
+        } else if (hardkill) {
+            killMoveSpeed();
+            hardkill = false;
+        } else {
+            switch (random) {
+                case 0:
+                    // check if compatible
+                    if (sensorcol.has_sensor(sensorcol.accelerometer)) {
+                        killMoveAccelor();
+                    } else {
+                        killMovegenerator();
+                    }
+                    break;
+                case 1:
+                    // check if compatible -> run
+                    if (sensorcol.has_sensor(sensorcol.gyroscoop)) {
+                        killMoveGyroscoop();
+                    } else {
+                        killMovegenerator();
+                    }
+                    break;
+                case 2:
+                    // geen sensorcollector nodig -->
+                    sensorcol.stop();
+                    // check if compatible -> run
+                    killMoveGyroscoop();
+
+                    break;
+                case 3:
+                    sensorcol.stop();
+                    killMoveSpeed();
+                    break;
+                case 4:
+                    sensorcol.stop();
+                    killMovePressButton();
+                    break;
+                case 5:
+                    if (sensorcol.has_sensor(sensorcol.light)) {
+                        killMovelight();
+                    } else {
+                        killMovegenerator();
+                    }
+                    break;
+                case 6:
+                    sensorcol.stop();
+                    killMoveSound();
+                    break;
+            }
         }
-//        if (easykill) {
-//            killMovePressButton();
-//            easykill = false;
-//        } else if (hardkill) {
-//            killMoveSpeed();
-//            hardkill = false;
-//        } else {
-//            switch (random) {
-//                case 0:
-//                    // check if compatible
-//                    if (sensorcol.has_sensor(sensorcol.accelerometer)) {
-//                        killMoveAccelor();
-//                    } else {
-//                        killMovegenerator();
-//                    }
-//                    break;
-//                case 1:
-//                    // check if compatible -> run
-//                    if (sensorcol.has_sensor(sensorcol.gyroscoop)) {
-//                        killMoveGyroscoop();
-//                    } else {
-//                        killMovegenerator();
-//                    }
-//                    break;
-//                case 2:
-//                    // geen sensorcollector nodig -->
-//                    sensorcol.stop();
-//                    // check if compatible -> run
-//                    killMoveGyroscoop();
-//
-//                    break;
-//                case 3:
-//                    sensorcol.stop();
-//                    killMoveSpeed();
-//                    break;
-//                case 4:
-//                    sensorcol.stop();
-//                    killMovePressButton();
-//                    break;
-//                case 5:
-//                    if (sensorcol.has_sensor(sensorcol.light)) {
-//                        killMovelight();
-//                    } else {
-//                        killMovegenerator();
-//                    }
-//                    break;
-//                case 6:
-//                    sensorcol.stop();
-//                    killMoveSound();
-//                    break;
-//            }
-//        }
     }
     public void killMoveAccelor() {
         killMoveText.setVisibility(View.VISIBLE);
@@ -709,7 +703,7 @@ public class gameMode extends AppCompatActivity
                 killMoveText.setText(killmoveAcellorText + millisUntilFinished / 1000);
 
                 try {
-                    if (sensorsave.getMaxXaccelero() > killmoveAcellorValue) {
+                    if (sensorsave.getMaxNormAccelero() > killmoveAcellorValue) {
                         myCountDownTimer.cancel();
                         sensorcol.stop();
                         killmovefinished(true);
