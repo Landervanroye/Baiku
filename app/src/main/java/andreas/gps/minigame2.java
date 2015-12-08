@@ -1,6 +1,8 @@
 package andreas.gps;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,8 @@ public class minigame2 extends AppCompatActivity {
     public double gyr_goal = 3.0;
     public float light_goal = 800;
     public TextView timer;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     public CountDownTimer myCountDownTimer;
 
 
@@ -31,7 +35,9 @@ public class minigame2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_test2);
         LGA = new SensorActComb(this);
-
+        preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.apply();
 
     }
 
@@ -92,6 +98,7 @@ public class minigame2 extends AppCompatActivity {
                 if (okay) {
                     Toast.makeText(getApplicationContext(), "You won the game and got 50 points", Toast.LENGTH_LONG).show();
                     motivation.setText("Well done! You won!");
+                    editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+50);
 
                 } else  {
                     Toast.makeText(getApplicationContext(),"You lost.", Toast.LENGTH_LONG).show();
@@ -100,8 +107,7 @@ public class minigame2 extends AppCompatActivity {
 
 
             }
-        };
-        myCountDownTimer.start();
+        }.start();
 
 
     }
