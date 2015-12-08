@@ -19,7 +19,7 @@ public class Servercomm extends Activity {
 
     public JSONObject receivedmessage;
     String TAG = "abcd";
-    private Socket mSocket;
+    public Socket mSocket;
     static ServercommEventListener mCallback;
 
 
@@ -44,7 +44,7 @@ public class Servercomm extends Activity {
 
 
     public void disconnect(){
-        mSocket.disconnect();
+        this.disconnect();
     }
 
     public interface ServercommEventListener {
@@ -92,7 +92,6 @@ public class Servercomm extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
     }
 }
