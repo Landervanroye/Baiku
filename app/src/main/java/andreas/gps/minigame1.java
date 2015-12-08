@@ -1,6 +1,8 @@
 package andreas.gps;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +17,10 @@ public class minigame1 extends AppCompatActivity {
     public SensorActAcc Accelerometer;
     public double goal = 4.0;
     TextView explain;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     public CountDownTimer myCountDownTimer;
+
 
 
 
@@ -23,6 +28,10 @@ public class minigame1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_test);
         Accelerometer = new SensorActAcc(this);
+        preferences = getSharedPreferences("MyPreferences",Context.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.apply();
+
 
     }
 
@@ -75,8 +84,9 @@ public class minigame1 extends AppCompatActivity {
                 acceleration_show.setText("");
                 max_acc_view.setText("Max. acceleration: " + max_acc + " m/s²");
                 if (value && fair_play) {
-                    Toast.makeText(getApplicationContext(), "You won the game and got 10 points", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You won the game and got 50 points", Toast.LENGTH_LONG).show();
                     motivation.setText("Well done! You won!");
+                    editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+50);
 
                 } else if (!value) {
                     Toast.makeText(getApplicationContext(),"You lost the game", Toast.LENGTH_LONG).show();
@@ -87,8 +97,7 @@ public class minigame1 extends AppCompatActivity {
                 }
 
             }
-        };
-        myCountDownTimer.start();
+        }.start();
 
 
     }
