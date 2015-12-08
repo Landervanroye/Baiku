@@ -39,6 +39,12 @@
                 android:title="Magnetic Field Game">
 
             </item>
+            <item
+                android:id="@+id/minigame4"
+                android:icon="@drawable/minigames"
+                android:title="Naamse Straat Rider">
+
+            </item>
         </menu>
     </item>
 
