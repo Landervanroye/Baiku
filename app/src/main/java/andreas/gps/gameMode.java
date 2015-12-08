@@ -399,7 +399,7 @@ public class gameMode extends AppCompatActivity
         mymoney = personalPreferences.getInt("mymoney", 0);
         mypoints = data.intValue();
         mymoney += mypoints;
-        money.setTitle("My Money: " + Integer.toString(mymoney));
+        money.setTitle("Baikoins: " + Integer.toString(mymoney));
         points_score.setText(String.format("%d", mypoints));
         mHandler.postDelayed(changeTargetRunnable, 1000);
         Log.i(TAG, "got score");
@@ -1217,7 +1217,7 @@ public class gameMode extends AppCompatActivity
     public void updatePursuerLocation(LatLng location) {
         Log.i(TAG, "updating pursuer location");
         Log.i(TAG, "exception");
-        markerTarget2 = mMap.addMarker(new MarkerOptions().position(location).title("PURSUER").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        markerTarget2 = mMap.addMarker(new MarkerOptions().position(location).title("Hunter").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
 
     }
@@ -1298,7 +1298,7 @@ public class gameMode extends AppCompatActivity
                                 Log.i(TAG, e.toString());
                             }
                             myToast.makeText(gameMode.this, "You got killed by " + sender, Toast.LENGTH_SHORT).show();
-                            mypoints *= 0.8;
+                            mypoints *= 0.5;
                             points_score.setText(Integer.toString(mypoints));
                         } else {
                             try {
@@ -1521,7 +1521,7 @@ public class gameMode extends AppCompatActivity
             } catch (Exception e){
                 Log.i(TAG, e.toString());
             }
-            myToast.makeText(gameMode.this, "Press again to quit the game. Quitting may take a while.", Toast.LENGTH_SHORT).show();
+            myToast.makeText(gameMode.this, "Press again to quit the game.", Toast.LENGTH_SHORT).show();
             pressquit = true;
             mHandler.postDelayed(new Runnable() {
 
@@ -1529,7 +1529,7 @@ public class gameMode extends AppCompatActivity
                 public void run() {
                     pressquit = false;
                 }
-            }, 5000);
+            }, 3000);
         }
     }
 
