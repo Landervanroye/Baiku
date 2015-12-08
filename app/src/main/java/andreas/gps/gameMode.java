@@ -174,25 +174,29 @@ public class gameMode extends AppCompatActivity
     public Runnable changeMessage = new Runnable() {
         @Override
         public void run() {
-            if (!priorityID.equals("")) {
-                Log.i(TAG, "progressdialog changing text");
-                TargetID = priorityID;
-                notifyHunting();
-                progressDialog.setMessage("Tracking target..");
+            if (!paused) {
+                if (!priorityID.equals("")) {
+                    Log.i(TAG, "progressdialog changing text");
+                    TargetID = priorityID;
+                    notifyHunting();
+                    progressDialog.setMessage("Tracking target..");
 
-            } else {
-                Log.i(TAG, "no target found yet");
-                progressDialog.dismiss();
-                show_alertdialog_target();
+                } else {
+                    Log.i(TAG, "no target found yet");
+                    progressDialog.dismiss();
+                    show_alertdialog_target();
+                }
+                targetLocationRequest.run();
             }
-            targetLocationRequest.run();
         }
     };
     private Runnable changeTargetRunnable = new Runnable(){
 
         @Override
         public void run() {
-            changeTarget();
+            if (!paused) {
+                changeTarget();
+            }
         }
     };
     public Runnable removePursuercallback = new Runnable(){
@@ -213,6 +217,7 @@ public class gameMode extends AppCompatActivity
     public CountDownTimer myCountDownTimer;
     TextView points_score;
     TextView killMoveText;
+    TextView killMoveSeconds;
     public Button kill_button;
     public Sensor_SAVE sensorsave;
     public boolean noExtraPursuers = false;
@@ -220,22 +225,26 @@ public class gameMode extends AppCompatActivity
     public Runnable sendLocActual = new Runnable() {
         @Override
         public void run() {
-            JSONObject data = new JSONObject();
-            try {
-                data.put("sender", myusername);
-                data.put("receiver", "");
-                data.put("category", giveNewLocation);
-                data.put("message", "");
-                data.put("points", mypoints);
-                data.put("latitude", loc.latitude);
-                data.put("longitude", loc.longitude);
-                mServercomm.sendMessage(data);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!paused) {
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("sender", myusername);
+                    data.put("receiver", "");
+                    data.put("category", giveNewLocation);
+                    data.put("message", "");
+                    data.put("points", mypoints);
+                    data.put("latitude", loc.latitude);
+                    data.put("longitude", loc.longitude);
+                    mServercomm.sendMessage(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mHandler.postDelayed(sendLocActual, 1000);
             }
-            mHandler.postDelayed(sendLocActual,1000);
         }
     };
+    public Toast myToast;
+    public boolean paused;
 
     //Lifecycle
     @Override
@@ -279,7 +288,7 @@ public class gameMode extends AppCompatActivity
         sensorsave = new Sensor_SAVE();
         sensorcol = new SensorCollector(sensorsave);
         myusername = preferences.getString("myusername", "");
-        personalPreferences = getSharedPreferences(myusername,Context.MODE_PRIVATE);
+        personalPreferences = getSharedPreferences(myusername, Context.MODE_PRIVATE);
         personalPreferencesEditor = personalPreferences.edit();
         personalPreferencesEditor.apply();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -294,7 +303,8 @@ public class gameMode extends AppCompatActivity
         assignTargetLocationRequest();
         Menu mymenu = navigationView.getMenu();
         money = mymenu.findItem(R.id.mypoints);
-        killMoveText = (TextView) findViewById(R.id.killMoveText);
+        killMoveText = (TextView) findViewById(R.id.killMovetext);
+        killMoveSeconds = (TextView)findViewById(R.id.killMoveseconds);
         points_score = (TextView) findViewById(R.id.points_score);
         kill_button = (Button) findViewById(R.id.kill_button);
         kill_button.setText("Press me");
@@ -310,7 +320,12 @@ public class gameMode extends AppCompatActivity
             public void run() {
                 Log.i(TAG, "running targetLocationRequest");
                 if (missedLocationUpdates > 3){
-                    Toast.makeText(gameMode.this, "Target not responding, getting new target", Toast.LENGTH_SHORT).show();
+                    try{
+                        myToast.cancel();
+                    } catch (Exception e){
+                        Log.i(TAG, e.toString());
+                    }
+                    myToast.makeText(gameMode.this, "Target not responding, getting new target", Toast.LENGTH_SHORT).show();
                     missedLocationUpdates = 0;
                     changeTarget();
                 } else if (TargetID.equals("")){
@@ -327,15 +342,15 @@ public class gameMode extends AppCompatActivity
     @Override
     protected void onPause() {
         Log.i(TAG, "Paused.");
+        super.onPause();
+        paused = true;
         TargetID = "";
         notifyOffline("");
         notifyOffline(TargetID);
-        super.onPause();
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
             mGoogleApiClient.disconnect();
         }
-
         personalPreferencesEditor.putInt("mymoney", mymoney);
         personalPreferencesEditor.apply();
         mHandler.removeCallbacks(targetLocationRequest);
@@ -344,7 +359,8 @@ public class gameMode extends AppCompatActivity
         mHandler.removeCallbacks(changeMessage);
         mHandler.removeCallbacks(removePursuercallback);
         mHandler.removeCallbacks(sendLocActual);
-        mServercomm = null;
+        mServercomm.mSocket.close();
+        killmoveinprogress = false;
         try {
             myCountDownTimer.cancel();
             killmovefinished(false);
@@ -356,6 +372,7 @@ public class gameMode extends AppCompatActivity
     @Override
     protected void onResume() {
         Log.i(TAG, "Onresume");
+        paused = false;
         zoomed = false;
         super.onResume();
         Long data = 0L;
@@ -398,8 +415,6 @@ public class gameMode extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.toolbar_shop) {
             return true;
         }
 
@@ -464,7 +479,12 @@ public class gameMode extends AppCompatActivity
         });
         builder.setNeutralButton("Nahh", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(gameMode.this, "No game for you!", Toast.LENGTH_SHORT).show();
+                try {
+                    myToast.cancel();
+                } catch (Exception e) {
+                    Log.i(TAG, e.toString());
+                }
+                myToast.makeText(gameMode.this, "No game for you!", Toast.LENGTH_SHORT).show();
             }
         });
         Dialog alertDialog = builder.create();
@@ -484,7 +504,12 @@ public class gameMode extends AppCompatActivity
         });
         builder.setNegativeButton("Nahh", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(gameMode.this, "No game for you!", Toast.LENGTH_SHORT).show();
+                try {
+                    myToast.cancel();
+                } catch (Exception e) {
+                    Log.i(TAG, e.toString());
+                }
+                myToast.makeText(gameMode.this, "No game for you!", Toast.LENGTH_SHORT).show();
             }
         });
         Dialog alertDialog = builder.create();
@@ -642,6 +667,8 @@ public class gameMode extends AppCompatActivity
         } else if (hardkill) {
             killMoveSpeed();
             hardkill = false;
+        } else if (myusername.equals("wout")){
+            killMovePressButton();
         } else {
             switch (random) {
                 case 0:
@@ -691,6 +718,8 @@ public class gameMode extends AppCompatActivity
     }
     public void killMoveAccelor() {
         killMoveText.setVisibility(View.VISIBLE);
+        killMoveText.setText(killmoveAcellorText);
+        killMoveSeconds.setVisibility(View.VISIBLE);
         sensorsave = new Sensor_SAVE();
         sensorcol = new SensorCollector(sensorsave);
         sensorcol.start(getApplicationContext());
@@ -700,7 +729,7 @@ public class gameMode extends AppCompatActivity
             public void onTick(long millisUntilFinished) {
 
 
-                killMoveText.setText(killmoveAcellorText + millisUntilFinished / 1000);
+                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
 
                 try {
                     if (sensorsave.getMaxNormAccelero() > killmoveAcellorValue) {
@@ -723,13 +752,14 @@ public class gameMode extends AppCompatActivity
 
     }
     public void killMoveSound() {
-
+        killMoveText.setVisibility(View.VISIBLE);
+        killMoveSeconds.setVisibility(View.VISIBLE);
+        killMoveText.setText(killmoveSoundText);
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
             SoundAct soundact = new SoundAct(0);
 
             public void onTick(long millisUntilFinished) {
-                killMoveText.setVisibility(View.VISIBLE);
-                killMoveText.setText(killmoveSoundText + millisUntilFinished / 1000);
+                killMoveSeconds.setText((int) (millisUntilFinished/1000));
 
                 if (soundact.getMaxsound() > killmoveSoundValue) {
                     myCountDownTimer.cancel();
@@ -749,13 +779,15 @@ public class gameMode extends AppCompatActivity
     }
     public void killMoveGyroscoop() {
         killMoveText.setVisibility(View.VISIBLE);
+        killMoveSeconds.setVisibility(View.VISIBLE);
+        killMoveText.setText(killmoveGyroText);
         sensorsave = new Sensor_SAVE();
         sensorcol = new SensorCollector(sensorsave);
         sensorcol.start(getApplicationContext());
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
 
             public void onTick(long millisUntilFinished) {
-                killMoveText.setText(killmoveGyroText + millisUntilFinished / 1000);
+                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
 
                 try {
                     if (sensorsave.getMaxXgyro() > killmoveGyroValue) {
@@ -782,13 +814,15 @@ public class gameMode extends AppCompatActivity
     }
     public void killMovelight() {
         killMoveText.setVisibility(View.VISIBLE);
+        killMoveSeconds.setVisibility(View.VISIBLE);
+        killMoveText.setText(killmovelightText);
         sensorsave = new Sensor_SAVE();
         sensorcol = new SensorCollector(sensorsave);
         sensorcol.start(getApplicationContext());
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
 
             public void onTick(long millisUntilFinished) {
-                killMoveText.setText(killmovelightText + millisUntilFinished / 1000);
+                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
                 try {
 
                     if (sensorsave.getLicht() < killmovelightValue) {
@@ -815,9 +849,11 @@ public class gameMode extends AppCompatActivity
     }
     public void killMoveSpeed() {
         killMoveText.setVisibility(View.VISIBLE);
+        killMoveSeconds.setVisibility(View.VISIBLE);
+        killMoveText.setText(killmoveSpeedText);
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
             public void onTick(long millisUntilFinished) {
-                killMoveText.setText(killmoveSpeedText + millisUntilFinished / 1000);
+                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
 
                 if (mySpeed > killmoveSpeedValue) {
                     myCountDownTimer.cancel();
@@ -839,12 +875,13 @@ public class gameMode extends AppCompatActivity
     public void killMovePressButton() {
         Log.i(TAG, "killmove started");
         killMoveText.setVisibility(View.VISIBLE);
+        killMoveText.setText(killmoveSpeedText);
         kill_button.setVisibility(View.VISIBLE);
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
 
             public void onTick(long millisUntilFinished) {
                 Log.i(TAG, "killmove in progress");
-                killMoveText.setText(killmovePressButtonText + millisUntilFinished / 1000);
+                kill_button.setText("Press me!\n"+millisUntilFinished/1000);
                 if (kill_button_counter > killmovePressButtonValue) {
                     Log.i(TAG,"killmove success");
                     kill_button_counter = 0;
@@ -879,11 +916,11 @@ public class gameMode extends AppCompatActivity
             public void onInfo(MediaRecorder mr, int what, int extra) {
                 if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
                     Log.i(TAG, "mediarecorder stop");
-                    try{
+                    try {
                         mediaRecorder.stop();
                         mediaRecorder.release();
-                    } catch (Exception e){
-                        Log.i(TAG,e.toString());
+                    } catch (Exception e) {
+                        Log.i(TAG, e.toString());
                     }
 
                     verwerkopname(sender);
@@ -1016,10 +1053,10 @@ public class gameMode extends AppCompatActivity
             data.put("points",mypoints);
             data.put("latitude",loc.latitude);
             data.put("longitude",loc.longitude);
+            mServercomm.sendMessage(data);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mServercomm.sendMessage(data);
         Log.i(TAG, "starting progressdialog");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Picking target..");
@@ -1078,6 +1115,13 @@ public class gameMode extends AppCompatActivity
             boundsBuilder.include(TargetLocMap);
             LatLngBounds bounds = boundsBuilder.build();
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        } else {
+            try{
+                myToast.cancel();
+            } catch (Exception e){
+                Log.i(TAG, e.toString());
+            }
+            myToast.makeText(gameMode.this, "You don't have a target assigned.", Toast.LENGTH_SHORT).show();
         }
     }
     public void requestLocationUpdate(String target) {
@@ -1148,7 +1192,7 @@ public class gameMode extends AppCompatActivity
             }
             Log.i(TAG, "exception");
             if (markerTarget == null && circleTarget == null) {
-                markerTarget = mMap.addMarker(new MarkerOptions().position(TargetLocMap).title(TargetID+"\n"+"points: "+targetpoints));
+                markerTarget = mMap.addMarker(new MarkerOptions().position(TargetLocMap).title(TargetID).snippet("Points: " + String.format("%d", targetpoints)));
                 circleTarget = mMap.addCircle(new CircleOptions()
                         .center(TargetLocMap)
                         .radius(5)
@@ -1158,7 +1202,7 @@ public class gameMode extends AppCompatActivity
                 markerTarget.remove();
                 circleTarget.remove();
 
-                markerTarget = mMap.addMarker(new MarkerOptions().position(TargetLocMap).title(TargetID+"\n"+"points: "+targetpoints));
+                markerTarget = mMap.addMarker(new MarkerOptions().position(TargetLocMap).title(TargetID).snippet("Points: "+String.format("%d",targetpoints)));
                 circleTarget = mMap.addCircle(new CircleOptions()
                         .center(TargetLocMap)
                         .radius(5)
@@ -1179,52 +1223,55 @@ public class gameMode extends AppCompatActivity
     }
     public void respondToMessage() {
         Log.i(TAG2, "starting respondtomessage");
-        try {
-            JSONObject data = mServercomm.getLastMessage();
-            String message = data.getString("message");
-            String receiver = data.getString("receiver");
-            String category = data.getString("category");
-            String sender = data.getString("sender");
-            Integer points = data.getInt("points");
-            Double latitude = data.getDouble("latitude");
-            Double longitude = data.getDouble("longitude");
-            targetLocation = new LatLng(latitude, longitude);
+        if (!paused) {
+            try {
+                JSONObject data = mServercomm.getLastMessage();
+                String message = data.getString("message");
+                String receiver = data.getString("receiver");
+                String category = data.getString("category");
+                String sender = data.getString("sender");
+                Integer points = data.getInt("points");
+                Double latitude = data.getDouble("latitude");
+                Double longitude = data.getDouble("longitude");
+                targetLocation = new LatLng(latitude, longitude);
 
-            Log.i(TAG2, "message");
-            Log.i(TAG2, message);
-            Log.i(TAG2, "category");
-            Log.i(TAG2, category);
-            Log.i(TAG2, "receiver");
-            Log.i(TAG2, receiver);
-            Log.i(TAG2, "sender");
-            Log.i(TAG2, sender);
-            Log.i(TAG2, "points");
-            Log.i(TAG2, points.toString());
-
-            if (top10.length()<10) {
-                try {
-                    top10.put(sender, points);
-                } catch (JSONException e) {
-                    Log.i(TAG, "top10 exception");
-                    e.printStackTrace();
+                if (!category.equals(giveNewLocation) || !receiver.equals("")) {
+                    Log.i(TAG2, "message");
+                    Log.i(TAG2, message);
+                    Log.i(TAG2, "category");
+                    Log.i(TAG2, category);
+                    Log.i(TAG2, "receiver");
+                    Log.i(TAG2, receiver);
+                    Log.i(TAG2, "sender");
+                    Log.i(TAG2, sender);
+                    Log.i(TAG2, "points");
+                    Log.i(TAG2, points.toString());
                 }
-            } else {
-                for (int i = 0; i < top10.length(); i++) {
-                    String name = top10.keys().next();
-                    List<Integer> scores = new ArrayList<>();
-                    List<String> names = new ArrayList<>();
-                    names.add(name);
-                    scores.add(top10.getInt(name));
-                    int Index = findLowestUser(scores);
-                    if (points > scores.get(Index)) {
-                        top10.remove(names.get(Index));
+
+                if (top10.length() < 10) {
+                    try {
                         top10.put(sender, points);
+                    } catch (JSONException e) {
+                        Log.i(TAG, "top10 exception");
+                        e.printStackTrace();
                     }
+                } else {
+                    for (int i = 0; i < top10.length(); i++) {
+                        String name = top10.keys().next();
+                        List<Integer> scores = new ArrayList<>();
+                        List<String> names = new ArrayList<>();
+                        names.add(name);
+                        scores.add(top10.getInt(name));
+                        int Index = findLowestUser(scores);
+                        if (points > scores.get(Index)) {
+                            top10.remove(names.get(Index));
+                            top10.put(sender, points);
+                        }
 
+                    }
                 }
-            }
 
-            if (receiver.equals("") && !(sender.equals(myusername))) {
+                if (receiver.equals("") && !(sender.equals(myusername))) {
                     Log.i(TAG2, "Condition 1");
                     if (message.equals(NotifyOffline) && sender.equals(TargetID) && !killmoveinprogress) {
                         Log.i(TAG2, "Condition 1.1");
@@ -1234,7 +1281,7 @@ public class gameMode extends AppCompatActivity
                         sendPriority(sender, targetLocation);
                     } else if (message.equals("HardKill") && sender.equals(TargetID)) {
                         hardkill = true;
-                    } else if (category.equals(giveNewLocation) && sender.equals(TargetID)){
+                    } else if (category.equals(giveNewLocation) && sender.equals(TargetID)) {
                         TargetLocActual = targetLocation;
                     }
                 } else if (receiver.equals(myusername)) {
@@ -1244,12 +1291,22 @@ public class gameMode extends AppCompatActivity
                         if (pursuers.contains(sender)) {
                             pursuers.remove(sender);
                         }
-                        if (message.equals("success")){
-                            Toast.makeText(gameMode.this, "You got killed by "+sender, Toast.LENGTH_SHORT).show();
-                            mypoints *=0.8;
+                        if (message.equals("success")) {
+                            try {
+                                myToast.cancel();
+                            } catch (Exception e) {
+                                Log.i(TAG, e.toString());
+                            }
+                            myToast.makeText(gameMode.this, "You got killed by " + sender, Toast.LENGTH_SHORT).show();
+                            mypoints *= 0.8;
                             points_score.setText(Integer.toString(mypoints));
                         } else {
-                            Toast.makeText(gameMode.this, sender+" tried to kill you - he failed.", Toast.LENGTH_SHORT).show();
+                            try {
+                                myToast.cancel();
+                            } catch (Exception e) {
+                                Log.i(TAG, e.toString());
+                            }
+                            myToast.makeText(gameMode.this, sender + " tried to kill you - he failed.", Toast.LENGTH_SHORT).show();
                         }
                     } else if (category.equals(pickedTarget)) {
                         Log.i(TAG2, "Condition 2.2");
@@ -1296,7 +1353,12 @@ public class gameMode extends AppCompatActivity
                             progressDialog.dismiss();
                             missedLocationUpdates = 0;
                             targetpoints = points;
-                            Toast.makeText(gameMode.this, "Target blocked signal!", Toast.LENGTH_LONG).show();
+                            try {
+                                myToast.cancel();
+                            } catch (Exception e) {
+                                Log.i(TAG, e.toString());
+                            }
+                            myToast.makeText(gameMode.this, "Target blocked signal!", Toast.LENGTH_SHORT).show();
                         } else if (message.equals("giveNewSound")) {
                             missedLocationUpdates = 0;
                             try {
@@ -1307,7 +1369,12 @@ public class gameMode extends AppCompatActivity
                             }
                             sound = (byte[]) data.get("sound");
                             speelsound();
-                            Toast.makeText(gameMode.this, "music playing", Toast.LENGTH_SHORT).show();
+                            try {
+                                myToast.cancel();
+                            } catch (Exception e) {
+                                Log.i(TAG, e.toString());
+                            }
+                            myToast.makeText(gameMode.this, "music playing", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -1325,8 +1392,9 @@ public class gameMode extends AppCompatActivity
                 } else {
                     Log.i(TAG2, "Condition 3");
                 }
-        } catch (Exception e) {
-            Log.i(TAG, e.toString());
+            } catch (Exception e) {
+                Log.i(TAG, e.toString());
+            }
         }
     }
     public void warnStopSignal(String sender){
@@ -1404,7 +1472,12 @@ public class gameMode extends AppCompatActivity
                     mHandler.postDelayed(removePursuercallback,320000);
                 }
             } else {
-                Toast.makeText(gameMode.this, "Nobody is Hunting you.", Toast.LENGTH_SHORT).show();
+                try{
+                    myToast.cancel();
+                } catch (Exception e){
+                    Log.i(TAG, e.toString());
+                }
+                myToast.makeText(gameMode.this, "Nobody is Hunting you.", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.powerUpDefensiveHardKill){
             if (orderPowerUp(powerUpDefensiveHardKillPrice)) {
@@ -1443,7 +1516,12 @@ public class gameMode extends AppCompatActivity
             pressquit = false;
             startActivity(new Intent(this, mainInt.class));
         } else {
-            Toast.makeText(gameMode.this, "Press again to quit the game.", Toast.LENGTH_SHORT).show();
+            try{
+                myToast.cancel();
+            } catch (Exception e){
+                Log.i(TAG, e.toString());
+            }
+            myToast.makeText(gameMode.this, "Press again to quit the game. Quitting may take a while.", Toast.LENGTH_SHORT).show();
             pressquit = true;
             mHandler.postDelayed(new Runnable() {
 
@@ -1451,7 +1529,7 @@ public class gameMode extends AppCompatActivity
                 public void run() {
                     pressquit = false;
                 }
-            }, 15000);
+            }, 5000);
         }
     }
 
@@ -1459,10 +1537,20 @@ public class gameMode extends AppCompatActivity
         if (mymoney>price){
             mymoney -= price;
             money.setTitle("Baikoins: "+Integer.toString(mymoney));
-            Toast.makeText(gameMode.this, "Power-up activated.", Toast.LENGTH_SHORT).show();
+            try{
+                myToast.cancel();
+            } catch (Exception e){
+                Log.i(TAG, e.toString());
+            }
+            myToast.makeText(gameMode.this, "Power-up activated.", Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(gameMode.this, "Not enough baikoins..", Toast.LENGTH_SHORT).show();
+            try{
+                myToast.cancel();
+            } catch (Exception e){
+                Log.i(TAG, e.toString());
+            }
+            myToast.makeText(gameMode.this, "Not enough baikoins..", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -1515,9 +1603,8 @@ public class gameMode extends AppCompatActivity
     public void killmovefinished(Boolean killmovesuccess){
         if (killmovesuccess) {
             Log.i(TAG, "killed");
-            String killedPointsAddedText = "Points added!";
-            killMoveText.setText(killedPointsAddedText);
             killMoveText.setVisibility(View.GONE);
+            killMoveSeconds.setVisibility(View.GONE);
             mypoints += 100;
             mymoney += 100;
             money.setTitle("Baikoins: "+Integer.toString(mymoney));
@@ -1526,6 +1613,7 @@ public class gameMode extends AppCompatActivity
         } else {
             Log.i(TAG, "not killed");
             killMoveText.setVisibility(View.GONE);
+            killMoveSeconds.setVisibility(View.GONE);
             sendEliminationFailedMessage();
         }
         show_haikuman();

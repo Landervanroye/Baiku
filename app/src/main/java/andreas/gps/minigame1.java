@@ -15,6 +15,7 @@ public class minigame1 extends AppCompatActivity {
     public SensorActAcc Accelerometer;
     public double goal = 4.0;
     TextView explain;
+    public CountDownTimer myCountDownTimer;
 
 
 
@@ -44,7 +45,7 @@ public class minigame1 extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button);
         button.setEnabled(false);
         button.setText("There is no way back");
-        new CountDownTimer(30000, 1000) {
+        myCountDownTimer = new CountDownTimer(30000, 1000) {
             TextView counter = (TextView) findViewById(R.id.counter);
             TextView acceleration_show = (TextView) findViewById(R.id.acceleration);
             TextView motivation = (TextView) findViewById(R.id.textView2);
@@ -86,7 +87,8 @@ public class minigame1 extends AppCompatActivity {
                 }
 
             }
-        }.start();
+        };
+        myCountDownTimer.start();
 
 
     }
@@ -97,6 +99,7 @@ public class minigame1 extends AppCompatActivity {
 
 
     public void switchMain(View view) {
+        myCountDownTimer.cancel();
         Intent intent = new Intent(this, mainInt.class);
         startActivity(intent);
     }

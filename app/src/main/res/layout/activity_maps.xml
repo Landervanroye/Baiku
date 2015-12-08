@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="60dp" />
     <TextView
         android:id="@+id/points_text"
         android:layout_width="100dp"
@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:text="@string/points_text"
         android:textSize="30sp"
-        android:textColor="#000000" />
+        android:textColor="#000000"/>
 
     <TextView
         android:layout_width="100dp"
@@ -62,17 +62,28 @@
         android:visibility="gone"
         android:id="@+id/kill_button"
         android:onClick="killMoveCounter"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/killMoveText"
-        android:layout_marginTop="62dp"
-        android:textColor="#000000"
-        android:background="#FFFFFF"
-        android:layout_centerHorizontal="true"/>
 
     <include layout="@layout/toolbar_low_in_rank"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/killMovetext"
+        android:layout_alignTop="@+id/map"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/killMoveseconds"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:textSize="25sp" />
 
 
 </RelativeLayout>

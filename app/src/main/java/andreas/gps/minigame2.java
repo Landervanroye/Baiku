@@ -24,12 +24,14 @@ public class minigame2 extends AppCompatActivity {
     public double gyr_goal = 3.0;
     public float light_goal = 800;
     public TextView timer;
+    public CountDownTimer myCountDownTimer;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_test2);
         LGA = new SensorActComb(this);
+
 
     }
 
@@ -64,7 +66,7 @@ public class minigame2 extends AppCompatActivity {
         button.setEnabled(false);
         button.setText("There is no way back");
 
-        new CountDownTimer(30000, 1000) {
+        myCountDownTimer = new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timer = (TextView) findViewById(R.id.timer);
@@ -98,7 +100,8 @@ public class minigame2 extends AppCompatActivity {
 
 
             }
-        }.start();
+        };
+        myCountDownTimer.start();
 
 
     }
@@ -108,6 +111,7 @@ public class minigame2 extends AppCompatActivity {
 
 
     public void switchMain(View view) {
+        myCountDownTimer.cancel();
         Intent intent = new Intent(this, mainInt.class);
         startActivity(intent);
     }
