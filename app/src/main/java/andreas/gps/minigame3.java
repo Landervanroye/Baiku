@@ -1,6 +1,8 @@
 package andreas.gps;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +16,17 @@ public class minigame3 extends AppCompatActivity {
     public SensorActMF MagneticField;
     public double goal = 1000.0;
     TextView explain;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     public CountDownTimer myCountDownTimer;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_test3);
         MagneticField = new SensorActMF(this);
+        preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.apply();
 
     }
 
@@ -70,8 +77,9 @@ public class minigame3 extends AppCompatActivity {
                 MagneticField.stop();
                 acceleration_show.setText("The game has ended");
                 if (value) {
-                    Toast.makeText(getApplicationContext(), "You won the game and got 10 points", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You won the game and got 100 points", Toast.LENGTH_LONG).show();
                     motivation.setText("Well done! You won!");
+                    editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+100);
 
                 } else if (!value) {
                     Toast.makeText(getApplicationContext(),"You lost.", Toast.LENGTH_LONG).show();
@@ -79,8 +87,7 @@ public class minigame3 extends AppCompatActivity {
                 }
 
             }
-        };
-        myCountDownTimer.start();
+        }.start();
 
 
     }
