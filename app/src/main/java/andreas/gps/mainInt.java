@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -68,6 +69,8 @@ public class mainInt extends AppCompatActivity
     public MenuItem user;
 
 
+
+
     // switch to other activity functions
 
     public void switchGameMode() {
@@ -119,6 +122,13 @@ public class mainInt extends AppCompatActivity
     public void switchMinigame3() {
         Intent intent = new Intent(this, minigame3.class);
         startActivity(intent);
+    }
+    public void switchMinigame4(){
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        PackageManager managerclock = getPackageManager();
+        i = managerclock.getLaunchIntentForPackage("com.cw.game.android");
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        startActivity(i);
     }
 
 
@@ -372,6 +382,9 @@ public class mainInt extends AppCompatActivity
         else if (id == R.id.minigame3) {
             switchMinigame3();
         }
+        else if (id== R.id.minigame4){
+            switchMinigame4();
+        }
         else if (id == R.id.login_toolbar) {
             switchLogin();
         }
@@ -427,6 +440,8 @@ public class mainInt extends AppCompatActivity
             getSupportActionBar().setTitle("Not logged in");
         }
         LoggedIn();
+
+
 
     }
 
