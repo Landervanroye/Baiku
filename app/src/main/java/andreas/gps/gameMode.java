@@ -362,17 +362,29 @@ public class gameMode extends AppCompatActivity
         try {
             Context con = createPackageContext("com.cw.game.android", 0);
             SharedPreferences pref = con.getSharedPreferences(
-                    "MyPreferences", Context.MODE_PRIVATE);
+                    "MyPreferences", Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
             SharedPreferences.Editor editorgame = pref.edit();
-            editorgame.apply();
             data = pref.getLong("deltatime", 0);
             data /= 500;
-            editorgame.putLong("deltatime",0);
-            editorgame.apply();
+            Toast.makeText(this,"succesfully added " + String.valueOf(data) +" points of naamsestraatrider", Toast.LENGTH_LONG).show();
+            SharedPreferences.Editor naamseeditor = pref.edit();
+            naamseeditor.putLong("deltatime",0L);
+            naamseeditor.commit();
+
+            mypoints += data;
+            mymoney += data;
+            money.setTitle("Baikoins: "+Integer.toString(mymoney));
+            points_score.setText(Integer.toString(mypoints));
+
+
+
+            ////PUNTEN NOG TOEVOEGEN EN SHAREDPREFS OP 0 ZETTEN!
 
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, e.toString());
         }
+
+
         if (activeNetwork != null && activeNetwork.isConnected()) network_connected = true;
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) gps_connected = true;
         Log.i(TAG, "Connecting apiclient");
