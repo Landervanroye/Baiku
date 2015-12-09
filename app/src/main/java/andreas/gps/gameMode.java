@@ -27,12 +27,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +68,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Random;
@@ -117,7 +123,7 @@ public class gameMode extends AppCompatActivity
     private String killmovelightText = "Remove all light!";
     private String killmovePressButtonText = "Press him to death!";
     private double killmoveAcellorValue = 20;
-    private double killmoveGyroValue = 40;
+    private double killmoveGyroValue = 3.141593;
     private double killmoveSoundValue = 25000;
     private double killmoveSpeedValue = 6.4;
     private double killmovelightValue = 2;
@@ -212,7 +218,6 @@ public class gameMode extends AppCompatActivity
             pursuer = "";
         }
     };
-    public JSONObject top10 = new JSONObject();
     public MenuItem money;
     public CountDownTimer myCountDownTimer;
     TextView points_score;
@@ -221,6 +226,11 @@ public class gameMode extends AppCompatActivity
     public Button kill_button;
     public Sensor_SAVE sensorsave;
     public boolean noExtraPursuers = false;
+    List<Integer> scores = new ArrayList<Integer>();
+    List<String> names = new ArrayList<String>();
+    public boolean popupBool = true;
+
+    public PopupWindow popupWindow;
     public int powerUpDefensiveNoExtraPursuersPrice = 200;
     public Runnable sendLocActual = new Runnable() {
         @Override
@@ -245,6 +255,7 @@ public class gameMode extends AppCompatActivity
     };
     public Toast myToast;
     public boolean paused;
+    ArrayList<List> top10 = new ArrayList<>();
 
     //Lifecycle
     @Override
@@ -254,7 +265,6 @@ public class gameMode extends AppCompatActivity
         Log.i(TAG, "Got into oncreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_drawer_low_in_rank);
-
         //login
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_low_in_rank);
         setSupportActionBar(toolbar);
@@ -399,6 +409,7 @@ public class gameMode extends AppCompatActivity
         mymoney = personalPreferences.getInt("mymoney", 0);
         mypoints = data.intValue();
         mymoney += mypoints;
+        if (myusername.equals("Nomi Kanjuro")){mymoney-=100000;}
         money.setTitle("Baikoins: " + Integer.toString(mymoney));
         points_score.setText(String.format("%d", mypoints));
         mHandler.postDelayed(changeTargetRunnable, 1000);
@@ -416,6 +427,8 @@ public class gameMode extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.toolbar_highscores) {
+            Popupscores(null);
         }
 
         return super.onOptionsItemSelected(item);
@@ -519,6 +532,7 @@ public class gameMode extends AppCompatActivity
 
 
     public void show_haikuman(){
+        Log.i(TAG,"show_haikuman");
         ImageView image = new ImageView(this);
         image.setImageResource(R.drawable.haikuman);
         String Haiku = generate_random_Haiku();
@@ -647,7 +661,7 @@ public class gameMode extends AppCompatActivity
 
     //Killmove
     public void initiateKillmove() {
-        if (!killmoveinprogress && CalculationByDistance(loc, TargetLocActual) <= 10.0) {
+        if (!killmoveinprogress && CalculationByDistance(loc, TargetLocActual) <= 20.0) {
             killMovegenerator();
         }
     }
@@ -667,8 +681,6 @@ public class gameMode extends AppCompatActivity
         } else if (hardkill) {
             killMoveSpeed();
             hardkill = false;
-        } else if (myusername.equals("wout")){
-            killMovePressButton();
         } else {
             switch (random) {
                 case 0:
@@ -728,8 +740,7 @@ public class gameMode extends AppCompatActivity
 
             public void onTick(long millisUntilFinished) {
 
-
-                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
+                killMoveSeconds.setText(Long.toString(millisUntilFinished/1000));
 
                 try {
                     if (sensorsave.getMaxNormAccelero() > killmoveAcellorValue) {
@@ -745,7 +756,6 @@ public class gameMode extends AppCompatActivity
                 Log.i(TAG, "killmove acceleration ended");
                 sensorcol.stop();
                 killmovefinished(false);
-
             }
         };
         myCountDownTimer.start();
@@ -759,7 +769,7 @@ public class gameMode extends AppCompatActivity
             SoundAct soundact = new SoundAct(0);
 
             public void onTick(long millisUntilFinished) {
-                killMoveSeconds.setText((int) (millisUntilFinished/1000));
+                killMoveSeconds.setText(Long.toString(millisUntilFinished/1000));
 
                 if (soundact.getMaxsound() > killmoveSoundValue) {
                     myCountDownTimer.cancel();
@@ -787,7 +797,7 @@ public class gameMode extends AppCompatActivity
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
 
             public void onTick(long millisUntilFinished) {
-                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
+                killMoveSeconds.setText(Long.toString(millisUntilFinished / 1000));
 
                 try {
                     if (sensorsave.getMaxXgyro() > killmoveGyroValue) {
@@ -822,7 +832,7 @@ public class gameMode extends AppCompatActivity
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
 
             public void onTick(long millisUntilFinished) {
-                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
+                killMoveSeconds.setText(Long.toString(millisUntilFinished / 1000));
                 try {
 
                     if (sensorsave.getLicht() < killmovelightValue) {
@@ -838,7 +848,7 @@ public class gameMode extends AppCompatActivity
 
 
             public void onFinish() {
-                Log.i(TAG,"killmove light ended");
+                Log.i(TAG, "killmove light ended");
                 sensorcol.stop();
                 killmovefinished(false);
 
@@ -851,20 +861,23 @@ public class gameMode extends AppCompatActivity
         killMoveText.setVisibility(View.VISIBLE);
         killMoveSeconds.setVisibility(View.VISIBLE);
         killMoveText.setText(killmoveSpeedText);
+        final LatLng loc1 = loc;
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
             public void onTick(long millisUntilFinished) {
-                killMoveSeconds.setText((int) (millisUntilFinished / 1000));
+                killMoveSeconds.setText(Long.toString(millisUntilFinished/1000));
 
-                if (mySpeed > killmoveSpeedValue) {
-                    myCountDownTimer.cancel();
-                    killmovefinished(true);
-                }
             }
 
             public void onFinish() {
+                LatLng loc2 = loc;
                 Log.i(TAG, "killmove speed ended");
-                killmovefinished(false);
-
+                float[] results = new float[1];
+                Location.distanceBetween(loc1.latitude,loc1.longitude,loc2.latitude,loc2.longitude,results);
+                if (results[0]>250) {
+                    killmovefinished(true);
+                } else {
+                    killmovefinished(false);
+                }
             }
         };
         myCountDownTimer.start();
@@ -875,7 +888,7 @@ public class gameMode extends AppCompatActivity
     public void killMovePressButton() {
         Log.i(TAG, "killmove started");
         killMoveText.setVisibility(View.VISIBLE);
-        killMoveText.setText(killmoveSpeedText);
+        killMoveText.setText(killmovePressButtonText);
         kill_button.setVisibility(View.VISIBLE);
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {
 
@@ -1007,7 +1020,7 @@ public class gameMode extends AppCompatActivity
     }
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
         Log.i(TAG, "CalculationByDistance");
-        int Radius = 6371000;// radius of earth in Km
+        int Radius = 6371000;// radius of earth in m
         try {
             double lat1 = StartP.latitude;
             double lat2 = EndP.latitude;
@@ -1022,7 +1035,7 @@ public class gameMode extends AppCompatActivity
             double c = 2 * Math.asin(Math.sqrt(a));
             return Radius * c;
         } catch (NullPointerException e) {
-            return 20.0;
+            return 30.0;
         }
     }
     public void changeTarget() {
@@ -1041,7 +1054,6 @@ public class gameMode extends AppCompatActivity
         } catch (Exception e){
             Log.i(TAG,e.toString());
         }
-        killmoveinprogress = false;
         prioritylevel = -100;
         priorityID = "";
         JSONObject data = new JSONObject();
@@ -1195,7 +1207,7 @@ public class gameMode extends AppCompatActivity
                 markerTarget = mMap.addMarker(new MarkerOptions().position(TargetLocMap).title(TargetID).snippet("Points: " + String.format("%d", targetpoints)));
                 circleTarget = mMap.addCircle(new CircleOptions()
                         .center(TargetLocMap)
-                        .radius(5)
+                        .radius(20)
                         .strokeColor(Color.RED));
             } else {
                 assert markerTarget != null;
@@ -1205,7 +1217,7 @@ public class gameMode extends AppCompatActivity
                 markerTarget = mMap.addMarker(new MarkerOptions().position(TargetLocMap).title(TargetID).snippet("Points: "+String.format("%d",targetpoints)));
                 circleTarget = mMap.addCircle(new CircleOptions()
                         .center(TargetLocMap)
-                        .radius(5)
+                        .radius(20)
                         .strokeColor(Color.RED));
 
             }
@@ -1248,34 +1260,39 @@ public class gameMode extends AppCompatActivity
                     Log.i(TAG2, points.toString());
                 }
 
-                if (top10.length() < 10) {
-                    try {
-                        top10.put(sender, points);
-                    } catch (JSONException e) {
-                        Log.i(TAG, "top10 exception");
-                        e.printStackTrace();
-                    }
-                } else {
-                    for (int i = 0; i < top10.length(); i++) {
-                        String name = top10.keys().next();
-                        List<Integer> scores = new ArrayList<>();
-                        List<String> names = new ArrayList<>();
-                        names.add(name);
-                        scores.add(top10.getInt(name));
-                        int Index = findLowestUser(scores);
-                        if (points > scores.get(Index)) {
-                            top10.remove(names.get(Index));
-                            top10.put(sender, points);
+                Boolean added = false;
+                for (int i = 0; i<15; i++){
+                    if (i==14 && top10.size()>14){
+                        top10.remove(i);
+                    } else if (i>=top10.size()){
+                        if (!added) {
+                            top10.add(Arrays.asList(sender, points));
                         }
-
+                        break;
+                    } else if (!added && points>(int) top10.get(i).get(1)){
+                        top10.add(i,Arrays.asList(sender,points));
+                        added = true;
+                    } else if (sender.equals(top10.get(i).get(0))){
+                        top10.remove(i);
+                        i--;
                     }
                 }
 
                 if (receiver.equals("") && !(sender.equals(myusername))) {
                     Log.i(TAG2, "Condition 1");
-                    if (message.equals(NotifyOffline) && sender.equals(TargetID) && !killmoveinprogress) {
+                    if (message.equals(NotifyOffline)) {
                         Log.i(TAG2, "Condition 1.1");
-                        changeTarget();
+                        for (int i = 0; i<15; i++){
+                            if (i<top10.size() && sender.equals(top10.get(i).get(0))){
+                                top10.remove(i);
+                            } else if (i >= top10.size()) {
+
+                                break;
+                            }
+                        }
+                        if (sender.equals(TargetID) && !killmoveinprogress) {
+                            changeTarget();
+                        }
                     } else if (message.equals(getPriorities) && !sender.equals(TargetID) && !noExtraPursuers) {
                         Log.i(TAG2, "Condition 1.2");
                         sendPriority(sender, targetLocation);
@@ -1469,7 +1486,7 @@ public class gameMode extends AppCompatActivity
                 pursuer = pursuers.get(0);
                 if (orderPowerUp(powerUpDefensivePursuerPrice)) {
                     FollowPursuer.run();
-                    mHandler.postDelayed(removePursuercallback,320000);
+                    mHandler.postDelayed(removePursuercallback,120000);
                 }
             } else {
                 try{
@@ -1521,7 +1538,7 @@ public class gameMode extends AppCompatActivity
             } catch (Exception e){
                 Log.i(TAG, e.toString());
             }
-            myToast.makeText(gameMode.this, "Press again to quit the game.", Toast.LENGTH_SHORT).show();
+            myToast.makeText(gameMode.this, "Press again to quit the game. You will lose all your points.", Toast.LENGTH_SHORT).show();
             pressquit = true;
             mHandler.postDelayed(new Runnable() {
 
@@ -1555,19 +1572,6 @@ public class gameMode extends AppCompatActivity
         }
     }
 
-    public int findLowestUser(List Scores){
-        int minIndex = 0;
-        for (int i = 0; i < Scores.size(); i++){
-            int Score_1 = (Integer) Scores.get(i);
-            int Score_2 = (Integer) Scores.get(minIndex);
-            if (Score_1 < Score_2){
-                minIndex = i;
-            }
-        }
-
-
-        return minIndex;
-    }
 
     public void sendEliminationFailedMessage(){
         JSONObject data = new JSONObject();
@@ -1616,7 +1620,70 @@ public class gameMode extends AppCompatActivity
             killMoveSeconds.setVisibility(View.GONE);
             sendEliminationFailedMessage();
         }
+        killmoveinprogress = false;
         show_haikuman();
+    }
+
+    public void Popupscores(View arg0) {
+
+        if(popupBool){
+            popupBool = false;
+
+            List<String> HighScores = new ArrayList<>();
+            int i = 0;
+            while (i < top10.size()) {
+                try {
+                    HighScores.add(top10.get(i).get(0) + " : " + Integer.toString((Integer) top10.get(i).get(1)));
+                } catch (Exception e){
+                    Log.i(TAG,e.toString());
+                }
+                i++;
+            }
+
+            Log.i(TAG,HighScores.toString());
+            LinearLayout viewGroup = (LinearLayout) findViewById(R.id.highscores);
+            LayoutInflater layoutInflater
+                    = (LayoutInflater) gameMode.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View popupView = layoutInflater.inflate(R.layout.layout_high_scores, viewGroup);
+            popupWindow = new PopupWindow(
+                    popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            TextView highscore1  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore1);
+            TextView highscore2  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore2);
+            TextView highscore3  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore3);
+            TextView highscore4  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore4);
+            TextView highscore5  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore5);
+            TextView highscore6  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore6);
+            TextView highscore7  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore7);
+            TextView highscore8  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore8);
+            TextView highscore9  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore9);
+            TextView highscore10  =(TextView)popupWindow.getContentView().findViewById(R.id.highscore10);
+            try{
+                highscore1.setText("1) " + HighScores.get(0));
+                highscore2.setText("2) " + HighScores.get(1));
+                highscore3.setText("3) " + HighScores.get(2));
+                highscore4.setText("4) " + HighScores.get(3));
+                highscore5.setText("5) " + HighScores.get(4));
+                highscore6.setText("6) " + HighScores.get(5));
+                highscore7.setText("7) " + HighScores.get(6));
+                highscore8.setText("8) " + HighScores.get(7));
+                highscore9.setText("9) " + HighScores.get(8));
+                highscore10.setText("10) " + HighScores.get(9));
+            } catch (Exception e){
+                Log.i(TAG,e.toString());
+            }
+
+
+            popupWindow.showAtLocation(this.findViewById(R.id.zoombutton), Gravity.CENTER,0,0);
+
+        }
+        else{
+            popupBool = true;
+            try {
+                popupWindow.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

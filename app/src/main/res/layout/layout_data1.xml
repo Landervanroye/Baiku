@@ -3,18 +3,19 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <include layout="@layout/toolbar_low_in_rank"/>
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <include layout="@layout/toolbar_low_in_rank"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="GamePlay"
             android:textSize="@dimen/text_size_title1"
             android:background="#ffff00"
-            android:layout_marginTop="52dp"/>
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

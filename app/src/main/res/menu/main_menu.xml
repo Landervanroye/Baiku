@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="datas">
+    <item android:title="Baiku">
         <menu>
             <item
                 android:id="@+id/data1"
                 android:icon="@mipmap/datas"
-                android:title="Data1"
-                />
-            <item
-                android:id="@+id/data2"
-                android:icon="@mipmap/datas"
-                android:title="Data2"
-                />
-            <item
-                android:id="@+id/data3"
-                android:icon="@mipmap/datas"
-                android:title="Data3"
+                android:title="How to play"
                 />
         </menu>
     </item>
@@ -36,7 +26,11 @@
             <item
                 android:id="@+id/minigame3"
                 android:icon="@drawable/minigames"
-                android:title="Magnetic Field Game">
+                android:title="Magnetic Field Game"/>
+            <item
+                android:id="@+id/minigame4"
+                android:icon="@drawable/minigames"
+                android:title="Naamse Straat Rider">
 
             </item>
         </menu>

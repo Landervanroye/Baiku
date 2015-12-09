@@ -50,9 +50,10 @@
     <string name="HowToPowerUps">Power Ups</string>
     <string name="HowToIncreaseUpdateFrequency">Increase update frequency</string>
     <string name="HowToOffensiveUpdateFrequency">powerUpOffensiveUpdateFrequency</string>
-    <string name="HowToOffensiveUpdateFrequencyText">Dit versnelt de hoeveelheid updates per
-        minuut deze staan standard op 32 seconden. Dit zal bij elke aankoop gedeeld worden door 2
-        en dit blijft zo gedurende 4 minuten maar zal na deze tijd weer verdubbelen.</string>
+    <string name="HowToOffensiveUpdateFrequencyText">This increases the number of updates of your targets location you get.
+        Standard update period is 32 seconds. Every time you order this power-up, this period is divided by two.
+
+    </string>
     <string name="HowToOffensiveEasyKill">powerUpOffensiveEasyKill</string>
     <string name="HowToOffensiveEasyKillText"> Als je deze power up koopt zal je volgende kill move
         30 keer een knop indrukken worden. Dit is de gemakkelijkste kill move van het spel!

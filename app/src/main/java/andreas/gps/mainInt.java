@@ -2,6 +2,7 @@ package andreas.gps;
 
 
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -99,15 +100,6 @@ public class mainInt extends AppCompatActivity
         Intent intent = new Intent(this, data1.class);
         startActivity(intent);
     }
-    public void switchData2() {
-        Intent intent = new Intent(this, data2.class);
-        startActivity(intent);
-    }
-    public void switchData3() {
-        Intent intent = new Intent(this, data3.class);
-        startActivity(intent);
-
-    }
     public void switchMiniggame1() {
         Intent intent = new Intent(this, minigame1.class);
         startActivity(intent);
@@ -120,6 +112,7 @@ public class mainInt extends AppCompatActivity
         Intent intent = new Intent(this, minigame3.class);
         startActivity(intent);
     }
+
 
 
 
@@ -183,9 +176,9 @@ public class mainInt extends AppCompatActivity
 
     @Override
     public void onDestroy(){
+        super.onDestroy();
         editor.putString("myusername","");
         editor.apply();
-        super.onDestroy();
     }
 
     @Override
@@ -357,12 +350,6 @@ public class mainInt extends AppCompatActivity
         if (id == R.id.data1) {
             switchData1();
         }
-        else if (id == R.id.data2) {
-            switchData2();
-        }
-        else if (id == R.id.data3) {
-            switchData3();
-        }
         else if (id == R.id.minigame1) {
             switchMiniggame1();
         }
@@ -371,6 +358,9 @@ public class mainInt extends AppCompatActivity
         }
         else if (id == R.id.minigame3) {
             switchMinigame3();
+        }
+        else if (id == R.id.minigame4){
+            switchMinigame4();
         }
         else if (id == R.id.login_toolbar) {
             switchLogin();
@@ -438,6 +428,22 @@ public class mainInt extends AppCompatActivity
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
         }
+    }
+    public void switchMinigame4(){
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        PackageManager managerclock = getPackageManager();
+        i = managerclock.getLaunchIntentForPackage("com.cw.game.android");
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        startActivity(i);
+        }
+
+    @Override
+    public void onBackPressed(){
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+
     }
 }
 
