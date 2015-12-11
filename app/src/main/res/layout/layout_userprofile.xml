@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:text="Personal Stats"
         android:textSize="@dimen/text_size_title1"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
 
         />
 
@@ -18,7 +20,8 @@
         android:layout_height="wrap_content"
         android:text="Highest points"
         android:textSize="@dimen/text_size_title2"
-        android:background="#F44336"
+        android:background="#b31217"
+        android:layout_marginBottom="5dp"
 
         />
 
@@ -43,6 +46,7 @@
         android:layout_height="wrap_content"
         android:text="3: no data"
         android:textSize="@dimen/text_size_information"
+        android:layout_marginBottom="15dp"
         />
 
     <TextView
@@ -50,7 +54,8 @@
         android:layout_height="wrap_content"
         android:text="Highest killstreaks"
         android:textSize="@dimen/text_size_title2"
-        android:background="#F44336"
+        android:background="#b31217"
+        android:layout_marginBottom="5dp"
 
         />
 

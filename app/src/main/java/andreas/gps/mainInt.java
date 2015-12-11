@@ -367,9 +367,6 @@ public class mainInt extends AppCompatActivity
         else if (id == R.id.minigame2) {
             switchMiniggame2();
         }
-        else if (id == R.id.minigame3) {
-            switchMinigame3();
-        }
         else if (id == R.id.minigame4){
             switchMinigame4();
         }

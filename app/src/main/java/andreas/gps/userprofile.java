@@ -54,11 +54,11 @@ public class userprofile extends AppCompatActivity {
         int k1 = preferences.getInt("killstreak1",0);
         int k2 = preferences.getInt("killstreak2",0);
         int k3 = preferences.getInt("killstreak3",0);
-        points1.setText(Integer.toString(p1));
-        points2.setText(Integer.toString(p2));
-        points3.setText(Integer.toString(p3));
-        streak1.setText(Integer.toString(k1));
-        streak2.setText(Integer.toString(k2));
-        streak3.setText(Integer.toString(k3));
+        points1.setText("1) " + Integer.toString(p1));
+        points2.setText("2) " + Integer.toString(p2));
+        points3.setText("3) " + Integer.toString(p3));
+        streak1.setText("1) " + Integer.toString(k1));
+        streak2.setText("2) " + Integer.toString(k2));
+        streak3.setText("3) " + Integer.toString(k3));
     }
 }

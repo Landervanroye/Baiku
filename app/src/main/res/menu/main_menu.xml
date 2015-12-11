@@ -5,8 +5,8 @@
         <menu>
             <item
                 android:id="@+id/data1"
-                android:icon="@mipmap/datas"
-                android:title="How to play"
+                android:icon="@drawable/question"
+                android:title="How To Play"
                 />
         </menu>
     </item>
@@ -23,10 +23,7 @@
                 android:icon="@drawable/minigames"
                 android:title="Combination Game"
                 />
-            <item
-                android:id="@+id/minigame3"
-                android:icon="@drawable/minigames"
-                android:title="Magnetic Field Game"/>
+
             <item
                 android:id="@+id/minigame4"
                 android:icon="@drawable/minigames"

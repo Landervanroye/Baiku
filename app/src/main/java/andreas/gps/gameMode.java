@@ -116,7 +116,7 @@ public class gameMode extends AppCompatActivity
     public Boolean killmoveinprogress = false;
     private double killmoveAcellorValue = 20;
     private double killmoveGyroValue = 3.141593;
-    private double killmoveSoundValue = 25000;
+    private double killmoveSoundValue = 50000;
     private double killmovelightValue = 2;
     private double killmovePressButtonValue = 150;
     private long killmovetimer = 30000;
@@ -906,7 +906,7 @@ public class gameMode extends AppCompatActivity
 
     public void killMovePressButton() {
         killMoveText.setVisibility(View.VISIBLE);
-        String killmovePressButtonText = "Press him to death!";
+        String killmovePressButtonText = "Tap him to death!";
         killMoveText.setText(killmovePressButtonText);
         kill_button.setVisibility(View.VISIBLE);
         myCountDownTimer = new CountDownTimer(killmovetimer, 200) {

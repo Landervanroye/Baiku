@@ -55,7 +55,8 @@
         <activity
             android:name=".data1"
             android:label="@string/data"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".mainInt">
         </activity>
         <activity
             android:name=".data2"

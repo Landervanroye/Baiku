@@ -77,7 +77,7 @@ public class minigame3 extends AppCompatActivity {
                 MagneticField.stop();
                 acceleration_show.setText("The game has ended");
                 if (value) {
-                    Toast.makeText(getApplicationContext(), "You won the game and got 100 points", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You won the game and got 100 Baikoins!", Toast.LENGTH_LONG).show();
                     motivation.setText("Well done! You won!");
                     editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+100);
                     editor.apply();

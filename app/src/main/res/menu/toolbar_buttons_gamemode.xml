@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/toolbar_highscores"
-        android:title="Highscores"
+        android:title="Leaderboard"
         app:showAsAction="always"
         />
 </menu>

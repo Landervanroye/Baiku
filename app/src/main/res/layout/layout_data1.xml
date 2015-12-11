@@ -12,91 +12,106 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GamePlay"
+            android:text="Gameplay"
             android:textSize="@dimen/text_size_title1"
-            android:background="#ffff00"
+            android:background="#b31217"
+            android:layout_marginBottom="10dp"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToGamePlayText"
+            android:text="@string/HowToGamePlayText2"
             android:textSize="@dimen/text_size_information"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToPowerUps"
             android:textSize="@dimen/text_size_title1"
-            android:background="#ffff00"
-            android:layout_marginTop="52dp"/>
+            android:background="#b31217"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToOffensiveUpdateFrequency"
-            android:textSize="@dimen/text_size_title2"/>
+            android:text="@string/powerUpOffensiveUpdateFrequency"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToOffensiveUpdateFrequencyText"
-            android:textSize="@dimen/text_size_information"/>
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToOffensiveEasyKill"
-            android:textSize="@dimen/text_size_title2"/>
+            android:text="@string/powerUpOffensiveEasyKill"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToOffensiveEasyKillText"
-            android:textSize="@dimen/text_size_information"/>
+            android:text="@string/HowToOffensiveEasyKillText2"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveStopSignal"
-            android:textSize="@dimen/text_size_title2"/>
+            android:text="@string/powerUpDefensiveStopSignal"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveStopSignalText"
-            android:textSize="@dimen/text_size_information"/>
+            android:text="@string/HowToDefensiveStopSignalText2"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveSound"
-            android:textSize="@dimen/text_size_title2"/>
+            android:text="@string/powerUpDefensiveSound"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveSoundText"
-            android:textSize="@dimen/text_size_information"/>
+            android:text="@string/HowToDefensiveSoundText2"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensivePursuer"
-            android:textSize="@dimen/text_size_title2"/>
+            android:text="@string/powerUpDefensivePursuer"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensivePursuerText"
-            android:textSize="@dimen/text_size_information"/>
+            android:text="@string/HowToDefensivePursuerText2"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveUpdateFrequency"
-            android:textSize="@dimen/text_size_title2"/>
+            android:text="@string/powerUpDefensiveNoExtraPursuers"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveUpdateFrequencyText"
-            android:textSize="@dimen/text_size_information"/>
+            android:text="@string/powerUpDefensiveNoExtraPursuersText"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveHardKill"
-            android:textSize="@dimen/text_size_title2"/>
+            android:text="@string/powerUpDefensiveHardKill"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/HowToDefensiveHardKillText"
+            android:text="@string/HowToDefensiveHardKillText2"
             android:textSize="@dimen/text_size_information"/>
 
     </LinearLayout>
