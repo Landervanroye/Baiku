@@ -4,7 +4,6 @@ package andreas.gps;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +17,6 @@ import io.socket.emitter.Emitter;
 public class Servercomm extends Activity {
 
     public JSONObject receivedmessage;
-    String TAG = "abcd";
     public Socket mSocket;
     static ServercommEventListener mCallback;
 
@@ -28,7 +26,6 @@ public class Servercomm extends Activity {
     }
 
     public void sendMessage(JSONObject data) {
-        Log.i(TAG, "sending message");
 
         try {
             JSONObject obj = new JSONObject();
@@ -39,12 +36,6 @@ public class Servercomm extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "message sent");
-    }
-
-
-    public void disconnect(){
-        this.disconnect();
     }
 
     public interface ServercommEventListener {
@@ -61,7 +52,6 @@ public class Servercomm extends Activity {
             Runnable r = new Runnable() {
                 @Override
                 public void run() {
-                    Log.i(TAG, "message received");
                     receivedmessage = (JSONObject) args[0];
                     mCallback.respondToMessage();
 

@@ -28,7 +28,7 @@ public class minigame1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_test);
         Accelerometer = new SensorActAcc(this);
-        preferences = getSharedPreferences("MyPreferences",Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("myPreferences",Context.MODE_PRIVATE);
         editor = preferences.edit();
         editor.apply();
 
@@ -87,6 +87,7 @@ public class minigame1 extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "You won the game and got 50 points", Toast.LENGTH_LONG).show();
                     motivation.setText("Well done! You won!");
                     editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+50);
+                    editor.apply();
 
                 } else if (!value) {
                     Toast.makeText(getApplicationContext(),"You lost the game", Toast.LENGTH_LONG).show();
@@ -108,7 +109,11 @@ public class minigame1 extends AppCompatActivity {
 
 
     public void switchMain(View view) {
-        myCountDownTimer.cancel();
+        try {
+            myCountDownTimer.cancel();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         Intent intent = new Intent(this, mainInt.class);
         startActivity(intent);
     }

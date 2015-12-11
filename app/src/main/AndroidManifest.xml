@@ -54,14 +54,17 @@
         </activity>
         <activity
             android:name=".data1"
-            android:label="@string/data" >
+            android:label="@string/data"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".data2"
+            android:screenOrientation="portrait"
             android:label="@string/data" >
         </activity>
         <activity
             android:name=".data3"
+            android:screenOrientation="portrait"
             android:label="@string/data" >
         </activity>
         <activity
@@ -80,7 +83,14 @@
             >
         </activity>
         <activity android:name=".minigame3"
-            android:label="minigame">
+            android:label="minigame"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".userprofile"
+            android:label="userprofile"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".mainInt">
 
         </activity>
     </application>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_low_in_rank"/>
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Personal Stats"
+        android:textSize="@dimen/text_size_title1"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Highest points"
+        android:textSize="@dimen/text_size_title2"
+        android:background="#F44336"
+
+        />
+
+    <TextView
+        android:id="@+id/highestpersonalpoints1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1: no data"
+        android:textSize="@dimen/text_size_information"
+
+        />
+    <TextView
+        android:id="@+id/highestpersonalpoints2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2: no data"
+        android:textSize="@dimen/text_size_information"
+        />
+    <TextView
+        android:id="@+id/highestpersonalpoints3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3: no data"
+        android:textSize="@dimen/text_size_information"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Highest killstreaks"
+        android:textSize="@dimen/text_size_title2"
+        android:background="#F44336"
+
+        />
+
+    <TextView
+        android:id="@+id/killstreak1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1: no data"
+        android:textSize="@dimen/text_size_information"
+
+        />
+    <TextView
+        android:id="@+id/killstreak2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2: no data"
+        android:textSize="@dimen/text_size_information"
+        />
+    <TextView
+        android:id="@+id/killstreak3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3: no data"
+        android:textSize="@dimen/text_size_information"
+        />
+
+</LinearLayout>

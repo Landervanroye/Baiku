@@ -24,7 +24,7 @@ public class minigame3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_test3);
         MagneticField = new SensorActMF(this);
-        preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         editor = preferences.edit();
         editor.apply();
 
@@ -80,6 +80,7 @@ public class minigame3 extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "You won the game and got 100 points", Toast.LENGTH_LONG).show();
                     motivation.setText("Well done! You won!");
                     editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+100);
+                    editor.apply();
 
                 } else if (!value) {
                     Toast.makeText(getApplicationContext(),"You lost.", Toast.LENGTH_LONG).show();
@@ -93,7 +94,11 @@ public class minigame3 extends AppCompatActivity {
     }
 
     public void switchMain(View view) {
-        myCountDownTimer.cancel();
+        try {
+            myCountDownTimer.cancel();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         Intent intent = new Intent(this, mainInt.class);
         startActivity(intent);
     }

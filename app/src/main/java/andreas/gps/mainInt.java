@@ -2,6 +2,7 @@ package andreas.gps;
 
 
 import android.app.Dialog;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -43,6 +44,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class mainInt extends AppCompatActivity
         implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -77,7 +80,7 @@ public class mainInt extends AppCompatActivity
             Intent intent = new Intent(this, gameMode.class);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Please log in first.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainInt.this, "Please login first", Toast.LENGTH_SHORT).show();
         }
     }
     public void switchLogin() {
@@ -95,7 +98,13 @@ public class mainInt extends AppCompatActivity
         Toast.makeText(this, "You are now logged out.", Toast.LENGTH_SHORT).show();
 
     }
-    public void switchUser(){}
+    public void switchUser(){
+        Intent intent = new Intent(this, userprofile.class);
+        Bundle b = new Bundle();
+        b.putString("username",preferences.getString("myusername",""));
+        intent.putExtras(b);
+        startActivity(intent);
+    }
     public void switchData1() {
         Intent intent = new Intent(this, data1.class);
         startActivity(intent);
@@ -112,6 +121,7 @@ public class mainInt extends AppCompatActivity
         Intent intent = new Intent(this, minigame3.class);
         startActivity(intent);
     }
+
 
 
 
@@ -169,6 +179,7 @@ public class mainInt extends AppCompatActivity
         user = mymenu.findItem(R.id.user_toolbar);
         preferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         editor = preferences.edit();
+        editor.apply();
     }
 
 
@@ -429,13 +440,17 @@ public class mainInt extends AppCompatActivity
             mGoogleApiClient.disconnect();
         }
     }
-    public void switchMinigame4(){
-        Intent i = new Intent(Intent.ACTION_MAIN);
-        PackageManager managerclock = getPackageManager();
-        i = managerclock.getLaunchIntentForPackage("com.cw.game.android");
-        i.addCategory(Intent.CATEGORY_LAUNCHER);
-        startActivity(i);
+    public void switchMinigame4() {
+        if (isPackageExisted("com.cw.game.android")) {
+            PackageManager managerclock = getPackageManager();
+            Intent i = managerclock.getLaunchIntentForPackage("com.cw.game.android");
+            i.addCategory(Intent.CATEGORY_LAUNCHER);
+            startActivity(i);
+
+        } else {
+            Toast.makeText(this, "Naamsestraat Rider not Found", Toast.LENGTH_LONG).show();
         }
+    }
 
     @Override
     public void onBackPressed(){
@@ -444,6 +459,20 @@ public class mainInt extends AppCompatActivity
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
 
+    }
+
+
+    public boolean isPackageExisted(String targetPackage){
+        List<ApplicationInfo> packages;
+        PackageManager pm;
+
+        pm = getPackageManager();
+        packages = pm.getInstalledApplications(0);
+        for (ApplicationInfo packageInfo : packages) {
+            if(packageInfo.packageName.equals(targetPackage))
+                return true;
+        }
+        return false;
     }
 }
 
