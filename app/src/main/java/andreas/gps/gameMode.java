@@ -1499,7 +1499,7 @@ public class gameMode extends AppCompatActivity
             Toast.makeText(gameMode.this, "Power-up activated.", Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(gameMode.this, "Not enough baikoins..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(gameMode.this, "Not enough Baikoins...", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
