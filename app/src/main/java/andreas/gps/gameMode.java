@@ -376,7 +376,7 @@ public class gameMode extends AppCompatActivity
         naamseadded = preferences.getLong("naamseadded",0);
         Long data = 0L;
         try {
-            Context con = createPackageContext("com.cw.game.android", 0);
+            Context con = createPackageContext("com.naamsestraatrider.android", 0);
             SharedPreferences pref = con.getSharedPreferences(
                     "MyPreferences", Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
             data = pref.getLong("deltatime", 0);
@@ -386,8 +386,6 @@ public class gameMode extends AppCompatActivity
             if (data != 0) {
                 Toast.makeText(this, "succesfully added " + String.valueOf(data) + " points of naamsestraatrider", Toast.LENGTH_LONG).show();
             }
-            SharedPreferences.Editor naamseeditor = pref.edit();
-            naamseeditor.commit();
         } catch (Exception e){
             e.printStackTrace();
         }

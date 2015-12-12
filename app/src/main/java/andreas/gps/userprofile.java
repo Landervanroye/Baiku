@@ -7,13 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-/**
- * Created by wout van medegael on 9/12/2015.
- */
 public class userprofile extends AppCompatActivity {
 
-    public SharedPreferences preferences;
-    public SharedPreferences.Editor editor;
+    public SharedPreferences prefs;
     public String myusername;
     public TextView points1;
     public TextView points2;
@@ -36,7 +32,7 @@ public class userprofile extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         myusername = b.getString("username");
 
-        preferences = getSharedPreferences(myusername, Context.MODE_PRIVATE);
+        prefs = getSharedPreferences(myusername, Context.MODE_PRIVATE);
         points1 = (TextView) findViewById(R.id.highestpersonalpoints1);
         points2 = (TextView) findViewById(R.id.highestpersonalpoints2);
         points3 = (TextView) findViewById(R.id.highestpersonalpoints3);
@@ -48,12 +44,12 @@ public class userprofile extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        int p1 = preferences.getInt("Highestpoints1",0);
-        int p2 = preferences.getInt("Highestpoints2",0);
-        int p3 = preferences.getInt("Highestpoints3",0);
-        int k1 = preferences.getInt("killstreak1",0);
-        int k2 = preferences.getInt("killstreak2",0);
-        int k3 = preferences.getInt("killstreak3",0);
+        int p1 = prefs.getInt("Highestpoints1",0);
+        int p2 = prefs.getInt("Highestpoints2",0);
+        int p3 = prefs.getInt("Highestpoints3",0);
+        int k1 = prefs.getInt("killstreak1",0);
+        int k2 = prefs.getInt("killstreak2",0);
+        int k3 = prefs.getInt("killstreak3",0);
         points1.setText("1) " + Integer.toString(p1));
         points2.setText("2) " + Integer.toString(p2));
         points3.setText("3) " + Integer.toString(p3));

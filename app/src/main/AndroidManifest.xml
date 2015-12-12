@@ -59,16 +59,6 @@
             android:parentActivityName=".mainInt">
         </activity>
         <activity
-            android:name=".data2"
-            android:screenOrientation="portrait"
-            android:label="@string/data" >
-        </activity>
-        <activity
-            android:name=".data3"
-            android:screenOrientation="portrait"
-            android:label="@string/data" >
-        </activity>
-        <activity
             android:name=".minigame1"
             android:label="@string/minigame" >
         </activity>
@@ -82,11 +72,6 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".mainInt"
             >
-        </activity>
-        <activity android:name=".minigame3"
-            android:label="minigame"
-            android:screenOrientation="portrait">
-
         </activity>
         <activity android:name=".userprofile"
             android:label="userprofile"

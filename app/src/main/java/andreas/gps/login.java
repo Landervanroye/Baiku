@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -147,6 +146,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
             conn.disconnect();
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -161,7 +161,9 @@ public class login extends AppCompatActivity implements View.OnClickListener{
             try{
                 DataOnServer = new JSONObject(result);
             }
-            catch (Exception e){}
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

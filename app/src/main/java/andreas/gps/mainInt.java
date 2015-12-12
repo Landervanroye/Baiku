@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
@@ -101,7 +102,8 @@ public class mainInt extends AppCompatActivity
     public void switchUser(){
         Intent intent = new Intent(this, userprofile.class);
         Bundle b = new Bundle();
-        b.putString("username",preferences.getString("myusername",""));
+        String user = preferences.getString("myusername","");
+        b.putString("username",user);
         intent.putExtras(b);
         startActivity(intent);
     }
@@ -115,10 +117,6 @@ public class mainInt extends AppCompatActivity
     }
     public void switchMiniggame2() {
         Intent intent = new Intent(this, minigame2.class);
-        startActivity(intent);
-    }
-    public void switchMinigame3() {
-        Intent intent = new Intent(this, minigame3.class);
         startActivity(intent);
     }
 
@@ -182,15 +180,6 @@ public class mainInt extends AppCompatActivity
         editor.apply();
     }
 
-
-
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        editor.putString("myusername","");
-        editor.apply();
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -445,7 +434,20 @@ public class mainInt extends AppCompatActivity
             startActivity(i);
 
         } else {
-            Toast.makeText(this, "Naamsestraat Rider not Found", Toast.LENGTH_LONG).show();
+            final String my_package_name = "com.naamsestraatrider.android";
+            String url = "";
+            try {
+                this.getPackageManager().getPackageInfo("com.android.vending", 0);
+
+                url = "market://details?id=" + my_package_name;
+            } catch ( final Exception e ) {
+                url = "https://play.google.com/store/apps/details?id=" + my_package_name;
+            }
+
+
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 
