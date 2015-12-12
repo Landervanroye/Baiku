@@ -50,30 +50,30 @@
     <string name="HowToPowerUps">Power-ups</string>
     <string name="HowToIncreaseUpdateFrequency">Increase update frequency</string>
     <string name="HowToOffensiveUpdateFrequencyText">This decreases the amount of time between updates of your target\'s location.
-        Standard update frequency is 32 seconds. Every time you order this power-up, this time is divided by two.
+        Standard update frequency is 32 seconds. Every time you order this power-up, this time is divided by two. Costs 120 Baikoins.
     </string>
     <string name="HowToOffensiveEasyKill">powerUpOffensiveEasyKill</string>
     <string name="HowToOffensiveEasyKillText"> Als je deze power up koopt zal je volgende kill move
         30 keer een knop indrukken worden. Dit is de gemakkelijkste kill move van het spel!
     </string>
     <string name="HowToOffensiveEasyKillText2"> If you buy this power-up, your next assigned kill-move will be "Tap him to death!".
-            This is the easiest kill-move in the game.
+            This is the easiest kill-move in the game. Costs 50 Baikoins.
     </string>
     <string name="HowToDefensiveStopSignalText">Dit zal de update van je postitie voor de personen
         die op je jagen stoppen gedurende 2 minuten. Dit geeft de kans om je jager te ontlopen.
     </string>
     <string name="HowToDefensiveStopSignalText2">This will hide your position from your Hunters for 2 minutes.
-        Use this to escape to safety!
+        Use this to escape to safety! Costs 120 Baikoins.
     </string>
     <string name="HowToDefensiveSoundText">Gederunde 2 minuten krijgt de jager geen positie van je
         door maar hoort hij je enkel.</string>
-    <string name="HowToDefensiveSoundText2">For 2 minutes, your Hunter doesn\'t get your position, but he can hear your surroundings.</string>
+    <string name="HowToDefensiveSoundText2">For 2 minutes, your Hunter doesn\'t get your position, but he can hear your surroundings. Costs 100 Baikoins.</string>
     <string name="HowToDefensivePursuerText">Dit geeft de loctaie van je achtervolger weer
         gedurende 4 min en wordt vernieuwd elke 5 seconden.</string>
-    <string name="HowToDefensivePursuerText2">This power-up shows the location of one of your Hunters for 4 minutes.</string>
+    <string name="HowToDefensivePursuerText2">This power-up shows the location of one of your Hunters for 4 minutes. Costs 75 Baikoins.</string>
     <string name="HowToDefensiveHardKillText">Je achtervolger zal de snelheid killmove moeten
         uitvoeren. Dus kies je locatie wijs en dit zal hem niet lukken!</string>
-    <string name="HowToDefensiveHardKillText2">Your Hunter will have to do the "Get highest speed." kill-move.</string>
+    <string name="HowToDefensiveHardKillText2">Your Hunter will have to do the "Get highest speed." kill-move. Costs 150 Baikoins.</string>
     <string name="HowToGamePlayText">Ga op je fiets zitten en start de app.
         Je zal een target aangewezen krijgen en daarop zal je gaan jagen! Probeer bij hem in de
         buurt te geraken en voer de killmove uit! Als het lukt krijg je punten bij, zoniet zal je
@@ -88,6 +88,19 @@
         Watch out for potential danger!</string>
     <string name="mypoints">mypoints</string>
     <string name="powerUpDefensiveNoExtraPursuers">No New Hunters</string>
-    <string name="powerUpDefensiveNoExtraPursuersText">For 2 minutes, you are free of new Hunters!</string>
+    <string name="powerUpDefensiveNoExtraPursuersText">For 2 minutes, you are free of new Hunters! Costs 200 Baikoins.</string>
+    <string name="HowToKillMoves">Kill Moves</string>
+    <string name="HowToAccelerate">Accelerate!</string>
+    <string name="HowToAccelerateText">Reach an acceleration of 20 m/s².</string>
+    <string name="HowToSound">Scream him to death!</string>
+    <string name="HowToSoundText">Record a sound or scream to reach 85 decibels.</string>
+    <string name="HowToShoot">Shoot him down!</string>
+    <string name="HowToShootText">Hold your phone like a gun and make a shooting motion.</string>
+    <string name="HowToLight">Remove all light!</string>
+    <string name="HowToLightText">Go to a dark place or cover your phone.</string>
+    <string name="HowToSpeed">Get to your highest speed!</string>
+    <string name="HowToSpeedText">Try to go as fast as possible and reach 30 km/h.</string>
+    <string name="HowToTap">Tap him to death!</string>
+    <string name="HowToTapText">Tap as fast as possible to complete this killmove.</string>
 
 </resources>

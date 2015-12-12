@@ -114,5 +114,88 @@
             android:text="@string/HowToDefensiveHardKillText2"
             android:textSize="@dimen/text_size_information"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToKillMoves"
+            android:textSize="@dimen/text_size_title1"
+            android:background="#b31217"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToAccelerate"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToAccelerateText"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToShoot"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToShootText"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToSound"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToSoundText"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToSpeed"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToSpeedText"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToLight"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToLightText"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToTap"
+            android:textSize="@dimen/text_size_title2"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HowToTapText"
+            android:textSize="@dimen/text_size_information"
+            android:layout_marginBottom="10dp"/>
+
+
+
     </LinearLayout>
 </ScrollView>
