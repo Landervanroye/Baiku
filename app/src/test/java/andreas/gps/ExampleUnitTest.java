@@ -1,4 +1,4 @@
-package andreas.gps;
+package baiku.bestgame;
 
 import org.junit.Test;
 

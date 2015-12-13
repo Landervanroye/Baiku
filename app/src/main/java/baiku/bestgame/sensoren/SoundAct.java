@@ -1,4 +1,4 @@
-package andreas.gps.sensoren;
+package baiku.bestgame.sensoren;
 
 import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;

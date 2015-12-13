@@ -1,4 +1,4 @@
-package andreas.gps.sensoren;
+package baiku.bestgame.sensoren;
 
 import android.util.Log;
 

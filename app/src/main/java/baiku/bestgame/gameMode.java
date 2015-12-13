@@ -1,6 +1,5 @@
-package andreas.gps;
+package baiku.bestgame;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -9,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -73,10 +71,10 @@ import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Random;
 
-import andreas.gps.sensoren.SensorActor;
-import andreas.gps.sensoren.SensorCollector;
-import andreas.gps.sensoren.Sensor_SAVE;
-import andreas.gps.sensoren.SoundAct;
+import baiku.bestgame.sensoren.SensorActor;
+import baiku.bestgame.sensoren.SensorCollector;
+import baiku.bestgame.sensoren.Sensor_SAVE;
+import baiku.bestgame.sensoren.SoundAct;
 
 public class gameMode extends AppCompatActivity
         implements OnMapReadyCallback,

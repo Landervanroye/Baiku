@@ -38,18 +38,18 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_login);
+        setContentView(baiku.bestgame.R.layout.layout_login);
 
         //login
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_low_in_rank);
+        Toolbar toolbar = (Toolbar) findViewById(baiku.bestgame.R.id.toolbar_low_in_rank);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        login_edit = (EditText)findViewById(R.id.login_edit);
-        password_edit = (EditText)findViewById(R.id.password_edit);
-        login_button = (Button)findViewById(R.id.login_button);
-        register_text = (TextView)findViewById(R.id.register_text);
+        login_edit = (EditText)findViewById(baiku.bestgame.R.id.login_edit);
+        password_edit = (EditText)findViewById(baiku.bestgame.R.id.password_edit);
+        login_button = (Button)findViewById(baiku.bestgame.R.id.login_button);
+        register_text = (TextView)findViewById(baiku.bestgame.R.id.register_text);
 
         login_button.setOnClickListener(this);
         register_text.setOnClickListener(this);
@@ -66,7 +66,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.login_button:
+            case baiku.bestgame.R.id.login_button:
                 String login_edit_string = login_edit.getText().toString();
                 String password_edit_string = password_edit.getText().toString();
                 if (!correctLogin(login_edit_string,password_edit_string)){
@@ -82,7 +82,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
                 break;
 
-            case R.id.register_text:
+            case baiku.bestgame.R.id.register_text:
 
                 intent = new Intent(this, Register.class);
                 startActivity(intent);

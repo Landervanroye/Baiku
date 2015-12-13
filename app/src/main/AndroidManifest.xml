@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="andreas.gps" >
+    package="baiku.bestgame" >
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -29,10 +29,10 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyAtqsdVEXE8cthirV7bT2qOlUpeOIc1UN0" />
 
         <activity
-            android:name=".mainInt"
+            android:name="baiku.bestgame.mainInt"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_main_int">
             <intent-filter>
@@ -42,41 +42,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gameMode"
+            android:name="baiku.bestgame.gameMode"
             android:label="@string/label_activity_gameMode"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".login"
+            android:name="baiku.bestgame.login"
             android:label="@string/label_login"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt">
+            android:parentActivityName="baiku.bestgame.mainInt">
         </activity>
         <activity
-            android:name=".data1"
+            android:name="baiku.bestgame.data1"
             android:label="@string/data"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt">
+            android:parentActivityName="baiku.bestgame.mainInt">
         </activity>
         <activity
-            android:name=".minigame1"
+            android:name="baiku.bestgame.minigame1"
             android:label="@string/minigame">
         </activity>
         <activity
-            android:name=".minigame2"
+            android:name="baiku.bestgame.minigame2"
             android:label="@string/minigame">
         </activity>
         <activity
-            android:name=".Register"
+            android:name="baiku.bestgame.Register"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt"
+            android:parentActivityName="baiku.bestgame.mainInt"
             >
         </activity>
-        <activity android:name=".userprofile"
+        <activity android:name="baiku.bestgame.userprofile"
             android:label="userprofile"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt">
+            android:parentActivityName="baiku.bestgame.mainInt">
 
         </activity>
     </application>

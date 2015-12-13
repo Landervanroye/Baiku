@@ -1,16 +1,13 @@
-package andreas.gps;
+package baiku.bestgame;
 
-/**
- * Created by Steven on 20/11/2015.
- */
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import java.text.DecimalFormat;
-
+import android.util.Log;
+import android.widget.TextView;
 
 /**
  * OPMERKING: NIET VERGETEN: sensoren stoppen wanneer niet nodig
@@ -19,16 +16,15 @@ import java.text.DecimalFormat;
  * 2) object.start(getApplicationContext());
  *
  */
-public class SensorActComb extends Activity implements SensorEventListener {
+public class SensorAct extends Activity implements SensorEventListener {
 
     private SensorManager sensorManager;
 
-    public minigame2 combination;
 
-    public SensorActComb(minigame2 mainact) {
-        combination = mainact;
 
-    }
+
+
+
 
     public void start(Context context) {
 
@@ -55,13 +51,10 @@ public class SensorActComb extends Activity implements SensorEventListener {
                 sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
                 SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
+                sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR),
                 SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
-                SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED),
                 SensorManager.SENSOR_DELAY_NORMAL);
 
     }
@@ -80,6 +73,14 @@ public class SensorActComb extends Activity implements SensorEventListener {
 
         int eventtype = event.sensor.getType();
         switch (eventtype) {
+            case Sensor.TYPE_GYROSCOPE:
+
+                // Movement
+                x = values[0];
+                y = values[1];
+                z = values[2];
+                Verwerk_Gyroscoop(x, y, z);
+                break;
             case Sensor.TYPE_ACCELEROMETER:
                 // Movement
                 x = values[0];
@@ -97,7 +98,7 @@ public class SensorActComb extends Activity implements SensorEventListener {
                 x = values[0];
                 verwerk_Prox(x);
                 break;
-            case Sensor.TYPE_ROTATION_VECTOR:
+            case Sensor.TYPE_GAME_ROTATION_VECTOR:
                 x = values[0];
                 y = values[1];
                 z = values[2];
@@ -105,12 +106,6 @@ public class SensorActComb extends Activity implements SensorEventListener {
             case Sensor.TYPE_LIGHT:
                 x = values[0];
                 Verwerk_licht(x);
-                break;
-            case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
-                x = values[0];
-                y = values[1];
-                z = values[2];
-                Verwerk_Gyroscoop(x,y,z);
 
         }
     }
@@ -125,61 +120,17 @@ public class SensorActComb extends Activity implements SensorEventListener {
 
     ///// verwerking
 
-    public float magnetic_field_x;
     void Verwerk_Magn(float x, float y, float z) {
-        magnetic_field_x = x;
+        Log.w("Magn", String.valueOf(x) + " " + String.valueOf(y) + " " + String.valueOf(z));
+        TextView edit_message = (TextView) findViewById(R.id.text_sensor);
+        edit_message.setText(String.valueOf(x) + " " + String.valueOf(y) + " " + String.valueOf(z));
     }
-    public float accelerometer_x;
-    public float accelerometer_y;
-    public float accelerometer_z;
-    public double norm;
-    public String ad_norm;
-    public double acc_max = 0.0;
-    public String max_norm;
-
 
     void Verwerk_Accelerometer(float x, float y, float z) {
-        accelerometer_x = x;
-        accelerometer_y = y;
-        accelerometer_z = z;
-        norm = Math.sqrt(x*x+y*y+z*z);
-        norm = Math.abs(norm-10.0);
-        if (norm > acc_max) {
-            acc_max = norm;
-        }
-        DecimalFormat numberFormat = new DecimalFormat("#.00");
-        if (norm < 0.70) {
-            norm = 0.0000000000000000;
-        }
-        ad_norm = numberFormat.format(norm);
-        max_norm = numberFormat.format(acc_max);
-        combination.update(ad_norm);
-
+        Log.w("Acc",String.valueOf(x) + " " + String.valueOf(y) + " " + String.valueOf(z));
     }
 
-    public float gyr_x;
-    public float gyr_y;
-    public float gyr_z;
-    public double gyr_full;
-    public double gyr_max = 0.0;
-    public String full_gyr;
-    public String max_gyr;
-
     void Verwerk_Gyroscoop(float x, float y, float z) {
-        gyr_x = x;
-        gyr_y = y;
-        gyr_z = z;
-        gyr_full = Math.sqrt(x*x+y*y*+z*z);
-        DecimalFormat numberFormat = new DecimalFormat("#.00");
-        if (gyr_full > gyr_max) {
-            gyr_max = gyr_full;
-        }
-        full_gyr = numberFormat.format(gyr_full);
-        max_gyr = numberFormat.format(gyr_max);
-        combination.update_gyroscope(full_gyr);
-
-
-
 
     }
 
@@ -191,24 +142,7 @@ public class SensorActComb extends Activity implements SensorEventListener {
 
     }
 
-    public float light;
-    public String ad_light;
-    public float max_light = 0;
-    public String light_max;
-
     void Verwerk_licht(float x) {
-        light = x;
-        DecimalFormat numberFormat = new DecimalFormat("#.00");
-        ad_light = numberFormat.format(light);
-        if (light > max_light) {
-            max_light = light;
-        }
-        light_max = numberFormat.format(max_light);
-        combination.update_light(ad_light);
-
 
     }
-
-
-
 }
