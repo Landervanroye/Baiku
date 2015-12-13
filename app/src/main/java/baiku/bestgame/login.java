@@ -1,4 +1,4 @@
-package andreas.gps;
+package baiku.bestgame;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +24,7 @@ import java.net.URL;
 
 public class login extends AppCompatActivity implements View.OnClickListener{
 
-    Integer SESSIONID = 8;
+    Integer SESSIONID = 1;
     Button login_button;
     EditText login_edit, password_edit;
     TextView register_text;
@@ -112,7 +112,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                 n+=1;
             }
         } catch (Exception e) {
-            Toast.makeText(login.this, "Not synced with server yet,\nwait a minute and try again", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
         return correct;
@@ -120,7 +120,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
     public void getMessage(){
         //set your own group number and session ID http://daddi.cs.kuleuven.be/peno3/data/{group number}/{session ID}
-        new GetAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3_test/" + SESSIONID);
+        new GetAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3/" + SESSIONID);
     }
 
     public String getDataFromServer(String URL){
