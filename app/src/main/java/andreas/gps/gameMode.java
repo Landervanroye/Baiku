@@ -376,20 +376,20 @@ public class gameMode extends AppCompatActivity
         naamseadded = preferences.getLong("naamseadded",0);
         Long data = 0L;
         try {
-            Context con = createPackageContext("com.naamsestraatrider.android", 0);
+            Context con = createPackageContext("com.naamsestraatrider.game.android", 0);
             SharedPreferences pref = con.getSharedPreferences(
                     "MyPreferences", Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
             data = pref.getLong("deltatime", 0);
             Log.i("datatje",data.toString());
-            data /= 500000;
+            data /= 600;
 
-            if (data != 0) {
-                Toast.makeText(this, "succesfully added " + String.valueOf(data) + " points of naamsestraatrider", Toast.LENGTH_LONG).show();
-            }
         } catch (Exception e){
             e.printStackTrace();
         }
         data -= naamseadded;
+        if (data != 0) {
+            Toast.makeText(this, "succesfully added " + String.valueOf(data) + " points of naamsestraatrider", Toast.LENGTH_LONG).show();
+        }
         naamseadded += data;
         resetVariables();
         if (activeNetwork != null && activeNetwork.isConnected()) network_connected = true;
@@ -1089,7 +1089,7 @@ public class gameMode extends AppCompatActivity
             Log.i(TAG, e.toString());
         }
 
-        mHandler.postDelayed(changeMessage, 4000);
+        mHandler.postDelayed(changeMessage, 2500);
     }
     public void notifyHunting() {
         JSONObject data = new JSONObject();

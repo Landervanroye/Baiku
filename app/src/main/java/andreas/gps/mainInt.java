@@ -434,7 +434,8 @@ public class mainInt extends AppCompatActivity
             startActivity(i);
 
         } else {
-            final String my_package_name = "com.naamsestraatrider.android";
+            Toast.makeText(mainInt.this, "Please install Naamsestraatrider first.", Toast.LENGTH_SHORT).show();
+            final String my_package_name = "com.cw.game.android";
             String url = "";
             try {
                 this.getPackageManager().getPackageInfo("com.android.vending", 0);
