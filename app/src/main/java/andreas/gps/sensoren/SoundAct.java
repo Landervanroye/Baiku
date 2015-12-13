@@ -41,7 +41,6 @@ public class SoundAct extends AppCompatActivity {
                     mRecorder.stop();
                     mRecorder.release();
                     mRecorder = null;
-
                     deze_meter.act_sound(maxamp);
 
                 }

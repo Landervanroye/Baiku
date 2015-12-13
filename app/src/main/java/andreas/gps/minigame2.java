@@ -96,9 +96,9 @@ public class minigame2 extends AppCompatActivity {
                 timer = (TextView) findViewById(R.id.timer);
                 timer.setText("Done!");
                 if (okay) {
-                    Toast.makeText(getApplicationContext(), "You won the game and got 50 Baikoins!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You won the game and got 10 Baikoins!", Toast.LENGTH_LONG).show();
                     motivation.setText("Well done! You won!");
-                    editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+50);
+                    editor.putInt("moneyadded",preferences.getInt("moneyadded",0)+10);
                     editor.apply();
 
                 } else  {

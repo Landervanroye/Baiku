@@ -17,7 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/NoActionBarTheme" >
+        android:theme="@style/NoActionBarTheme">
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -34,7 +34,7 @@
         <activity
             android:name=".mainInt"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_main_int" >
+            android:label="@string/title_activity_main_int">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +50,7 @@
             android:name=".login"
             android:label="@string/label_login"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt" >
+            android:parentActivityName=".mainInt">
         </activity>
         <activity
             android:name=".data1"
@@ -60,11 +60,11 @@
         </activity>
         <activity
             android:name=".minigame1"
-            android:label="@string/minigame" >
+            android:label="@string/minigame">
         </activity>
         <activity
             android:name=".minigame2"
-            android:label="@string/minigame" >
+            android:label="@string/minigame">
         </activity>
         <activity
             android:name=".Register"

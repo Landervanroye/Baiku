@@ -1,5 +1,6 @@
 package andreas.gps;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -247,11 +248,12 @@ public class gameMode extends AppCompatActivity
     ArrayList<List> top10 = new ArrayList<>();
     public Long naamseadded;
 
+
     //Lifecycle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
+        Log.i(TAG,"creating gamemode");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_drawer_low_in_rank);
         //login
@@ -307,6 +309,8 @@ public class gameMode extends AppCompatActivity
         points_score = (TextView) findViewById(R.id.points_score);
         kill_button = (Button) findViewById(R.id.kill_button);
         kill_button.setText("Press me");
+
+
         ////////////// test
         //killMoveAccelor();
 
@@ -369,20 +373,20 @@ public class gameMode extends AppCompatActivity
     }
     @Override
     protected void onResume() {
-        Log.i(TAG,"onresume");
+        Log.i(TAG, "onresume");
         paused = false;
         zoomed = false;
         super.onResume();
         naamseadded = preferences.getLong("naamseadded",0);
-        Long data = 0L;
+        Log.i("datatje", Long.toString(naamseadded));
+        Long data = naamseadded;
         try {
             Context con = createPackageContext("com.naamsestraatrider.game.android", 0);
             SharedPreferences pref = con.getSharedPreferences(
-                    "MyPreferences", Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-            data = pref.getLong("deltatime", 0);
+                    "MyPreferences", Context.MODE_PRIVATE);
+            data = pref.getLong("deltatime", naamseadded);
             Log.i("datatje",data.toString());
-            data /= 600;
-
+            data /= 700;
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1672,6 +1676,7 @@ public class gameMode extends AppCompatActivity
 
 
     }
+
 
 
 }

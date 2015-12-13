@@ -71,15 +71,17 @@ public class mainInt extends AppCompatActivity
     public MenuItem logout;
     public MenuItem login;
     public MenuItem user;
+    public Boolean rideractive = false;
 
 
     // switch to other activity functions
 
     public void switchGameMode() {
         if (!preferences.getString("myusername","").equals("")) {
-            Log.i(TAG,preferences.getString("myusername",""));
+            Log.i(TAG, preferences.getString("myusername", ""));
             Intent intent = new Intent(this, gameMode.class);
             startActivity(intent);
+
         } else {
             Toast.makeText(mainInt.this, "Please login first", Toast.LENGTH_SHORT).show();
         }
@@ -427,15 +429,18 @@ public class mainInt extends AppCompatActivity
         }
     }
     public void switchMinigame4() {
-        if (isPackageExisted("com.cw.game.android")) {
+        if (isPackageExisted("com.naamsestraatrider.game.android")) {
+            rideractive = true;
             PackageManager managerclock = getPackageManager();
-            Intent i = managerclock.getLaunchIntentForPackage("com.cw.game.android");
+            Intent i = managerclock.getLaunchIntentForPackage("com.naamsestraatrider.game.android");
             i.addCategory(Intent.CATEGORY_LAUNCHER);
             startActivity(i);
+            Log.i(TAG, "ending app");
+            endthisapp();
 
         } else {
             Toast.makeText(mainInt.this, "Please install Naamsestraatrider first.", Toast.LENGTH_SHORT).show();
-            final String my_package_name = "com.cw.game.android";
+            final String my_package_name = "com.naamsestraatrider.game.android";
             String url = "";
             try {
                 this.getPackageManager().getPackageInfo("com.android.vending", 0);
@@ -473,6 +478,13 @@ public class mainInt extends AppCompatActivity
                 return true;
         }
         return false;
+    }
+
+
+    public void endthisapp(){
+        Log.i(TAG, "ending");
+        android.os.Process.killProcess(android.os.Process.myPid());
+
     }
 }
 
