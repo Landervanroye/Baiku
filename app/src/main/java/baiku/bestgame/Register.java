@@ -24,10 +24,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
-    Integer SESSIONID = 8;
+    Integer SESSIONID = 3;
     Button register_button;
     EditText login_register_edit, password_register_edit, email_edit, password_confirm_edit;
     private String Username;
@@ -71,6 +73,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         String password_confirm_string = password_confirm_edit.getText().toString();
         String login_edit_string = login_register_edit.getText().toString();
         String email_edit_string = email_edit.getText().toString();
+        String password_register_send = md5(password_register_string);
 
 
         if (password_confirm_string.equals("") || password_register_string.equals("") || login_edit_string.equals("") || email_edit_string.equals("")) {
@@ -90,12 +93,31 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
         } else {
             Username = login_register_edit.getText().toString();
-            Password = password_register_edit.getText().toString();
+            Password = password_register_send;
             Email = email_edit.getText().toString();
             putMessage();
             Toast.makeText(getApplicationContext(), "Registered succesfully!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public boolean containsUsername(String input){
@@ -143,12 +165,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
 
     public void putMessage() {
-        new PutAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3_test/" + SESSIONID);
+        new PutAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3/" + SESSIONID);
     }
 
     public void getMessage(){
         //set your own group number and session ID http://daddi.cs.kuleuven.be/peno3/data/{group number}/{session ID}
-        new GetAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3_test/" + SESSIONID);
+        new GetAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3/" + SESSIONID);
     }
 
     public void ToMainInt(){
