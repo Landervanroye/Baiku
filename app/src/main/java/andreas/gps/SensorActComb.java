@@ -9,6 +9,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
+
 import java.text.DecimalFormat;
 
 
@@ -60,9 +62,6 @@ public class SensorActComb extends Activity implements SensorEventListener {
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
                 SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED),
-                SensorManager.SENSOR_DELAY_NORMAL);
 
     }
 
@@ -106,7 +105,8 @@ public class SensorActComb extends Activity implements SensorEventListener {
                 x = values[0];
                 Verwerk_licht(x);
                 break;
-            case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
+            case Sensor.TYPE_GYROSCOPE:
+                Log.i("gyro","gyro");
                 x = values[0];
                 y = values[1];
                 z = values[2];

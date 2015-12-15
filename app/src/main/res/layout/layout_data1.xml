@@ -7,8 +7,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
+        android:layout_height="match_parent">
         <include layout="@layout/toolbar_low_in_rank"/>
         <TextView
             android:layout_width="match_parent"
@@ -146,7 +145,7 @@
             android:background="#b31217"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
-            android:padding="20dp" />
+            android:padding="10dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

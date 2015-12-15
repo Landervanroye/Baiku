@@ -346,7 +346,7 @@ public class gameMode extends AppCompatActivity
         }
         personalPreferencesEditor.putInt("mymoney", mymoney);
         personalPreferencesEditor.apply();
-        editor.putLong("naamseadded",naamseadded);
+        editor.putLong("naamseadded", naamseadded);
         editor.apply();
         mHandler.removeCallbacks(targetLocationRequest);
         mHandler.removeCallbacks(FollowPursuer);
@@ -390,16 +390,17 @@ public class gameMode extends AppCompatActivity
             e.printStackTrace();
         }
         data -= naamseadded;
-        if (data != 0) {
-            Toast.makeText(this, "Succesfully added " + String.valueOf(data) + " points of naamsestraatrider.", Toast.LENGTH_LONG).show();
-        }
         naamseadded += data;
         resetVariables();
         if (activeNetwork != null && activeNetwork.isConnected()) network_connected = true;
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) gps_connected = true;
         mGoogleApiClient.connect();
-
-        mymoney = personalPreferences.getInt("mymoney", 0);
+        int moneyadded = preferences.getInt("moneyadded",0);
+        int a = data.intValue()+moneyadded;
+        if (a>0){
+            Toast.makeText(gameMode.this, "Added "+ Integer.toString(a)+" points from minigames.", Toast.LENGTH_SHORT).show();
+        }
+        mymoney = personalPreferences.getInt("mymoney", 0)+moneyadded;
         editor.putInt("moneyadded", 0);
         editor.apply();
         mymoney += data.intValue();

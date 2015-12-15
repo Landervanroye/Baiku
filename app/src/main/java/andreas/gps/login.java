@@ -21,10 +21,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class login extends AppCompatActivity implements View.OnClickListener{
 
-    Integer SESSIONID = 2;
+    Integer SESSIONID = 3;
     Button login_button;
     EditText login_edit, password_edit;
     TextView register_text;
@@ -69,7 +71,9 @@ public class login extends AppCompatActivity implements View.OnClickListener{
             case R.id.login_button:
                 String login_edit_string = login_edit.getText().toString();
                 String password_edit_string = password_edit.getText().toString();
-                if (!correctLogin(login_edit_string,password_edit_string)){
+                String password_send = md5(password_edit_string);
+
+                if (!correctLogin(login_edit_string,password_send)){
                     Toast.makeText(getApplicationContext(), "Username or password is incorrect.", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -165,6 +169,25 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                 e.printStackTrace();
             }
         }
+    }
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 

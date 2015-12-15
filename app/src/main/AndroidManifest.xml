@@ -60,11 +60,13 @@
         </activity>
         <activity
             android:name="andreas.gps.minigame1"
-            android:label="@string/minigame">
+            android:label="@string/minigame"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="andreas.gps.minigame2"
-            android:label="@string/minigame">
+            android:label="@string/minigame"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="andreas.gps.Register"

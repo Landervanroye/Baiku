@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class minigame2 extends AppCompatActivity {
         preferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         editor = preferences.edit();
         editor.apply();
+        motivation = (TextView) findViewById(R.id.information);
 
     }
 
@@ -47,6 +49,7 @@ public class minigame2 extends AppCompatActivity {
     }
 
     public void update_gyroscope(String norm) {
+        Log.i("gyro", "gyro updated");
         gyr = (TextView) findViewById(R.id.gyroscope);
         gyr.setText("Rotation: " + norm + " rad/s");
     }
