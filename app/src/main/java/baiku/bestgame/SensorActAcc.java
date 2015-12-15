@@ -1,35 +1,24 @@
-package andreas.gps;
+package baiku.bestgame;
 
-/**
- * Created by Steven on 20/11/2015.
- */
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import java.text.DecimalFormat;
 
 
-/**
- * OPMERKING: NIET VERGETEN: sensoren stoppen wanneer niet nodig
- * hoe gebruiken?
- * 1) object aanmaken
- * 2) object.start(getApplicationContext());
- *
- */
-public class SensorActComb extends Activity implements SensorEventListener {
+public class SensorActAcc extends Activity implements SensorEventListener {
 
     private SensorManager sensorManager;
 
-    public minigame2 combination;
+    public minigame1 acclass;
 
-    public SensorActComb(minigame2 mainact) {
-        combination = mainact;
 
+    public SensorActAcc(minigame1 acc) {
+        acclass = acc;
     }
 
     public void start(Context context) {
@@ -61,6 +50,9 @@ public class SensorActComb extends Activity implements SensorEventListener {
                 SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED),
                 SensorManager.SENSOR_DELAY_NORMAL);
 
     }
@@ -105,8 +97,7 @@ public class SensorActComb extends Activity implements SensorEventListener {
                 x = values[0];
                 Verwerk_licht(x);
                 break;
-            case Sensor.TYPE_GYROSCOPE:
-                Log.i("gyro","gyro");
+            case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
                 x = values[0];
                 y = values[1];
                 z = values[2];
@@ -153,7 +144,8 @@ public class SensorActComb extends Activity implements SensorEventListener {
         }
         ad_norm = numberFormat.format(norm);
         max_norm = numberFormat.format(acc_max);
-        combination.update(ad_norm);
+        acclass.update(ad_norm);
+        acclass.update_two(max_norm);
 
     }
 
@@ -176,7 +168,6 @@ public class SensorActComb extends Activity implements SensorEventListener {
         }
         full_gyr = numberFormat.format(gyr_full);
         max_gyr = numberFormat.format(gyr_max);
-        combination.update_gyroscope(full_gyr);
 
 
 
@@ -204,7 +195,6 @@ public class SensorActComb extends Activity implements SensorEventListener {
             max_light = light;
         }
         light_max = numberFormat.format(max_light);
-        combination.update_light(ad_light);
 
 
     }
