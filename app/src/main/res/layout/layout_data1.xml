@@ -7,7 +7,8 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="20dp">
         <include layout="@layout/toolbar_low_in_rank"/>
         <TextView
             android:layout_width="match_parent"
@@ -16,12 +17,13 @@
             android:textSize="@dimen/text_size_title1"
             android:background="#b31217"
             android:layout_marginBottom="10dp"
-            />
+            android:padding="10dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToGamePlayText2"
-            android:textSize="@dimen/text_size_information"/>
+            android:textSize="@dimen/text_size_information"
+            android:padding="10dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,90 +31,112 @@
             android:textSize="@dimen/text_size_title1"
             android:background="#b31217"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:padding="10dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpOffensiveUpdateFrequency"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToOffensiveUpdateFrequencyText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpOffensiveEasyKill"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToOffensiveEasyKillText2"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpDefensiveStopSignal"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToDefensiveStopSignalText2"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpDefensiveSound"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToDefensiveSoundText2"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpDefensivePursuer"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToDefensivePursuerText2"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpDefensiveNoExtraPursuers"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpDefensiveNoExtraPursuersText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/powerUpDefensiveHardKill"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToDefensiveHardKillText2"
-            android:textSize="@dimen/text_size_information"/>
+            android:textSize="@dimen/text_size_information"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -121,79 +145,98 @@
             android:textSize="@dimen/text_size_title1"
             android:background="#b31217"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToAccelerate"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToAccelerateText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToShoot"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToShootText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToSound"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToSoundText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToSpeed"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToSpeedText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToLight"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToLightText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToTap"
             android:textSize="@dimen/text_size_title2"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:padding="20dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/HowToTapText"
             android:textSize="@dimen/text_size_information"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
 
 

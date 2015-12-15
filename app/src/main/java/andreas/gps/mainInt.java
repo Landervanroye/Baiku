@@ -77,13 +77,22 @@ public class mainInt extends AppCompatActivity
     // switch to other activity functions
 
     public void switchGameMode() {
-        if (!preferences.getString("myusername","").equals("")) {
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) network_connected = true;
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) gps_connected = true;
+        if (!network_connected){
+            Toast.makeText(mainInt.this, "Turn on internet please.", Toast.LENGTH_SHORT).show();
+        } else if (!gps_connected) {
+            Toast.makeText(mainInt.this, "Turn on gps please", Toast.LENGTH_SHORT).show();
+        } else if (preferences.getString("myusername","").equals("")) {
+            Toast.makeText(mainInt.this, "Please login first.", Toast.LENGTH_SHORT).show();
+        } else {
             Log.i(TAG, preferences.getString("myusername", ""));
             Intent intent = new Intent(this, gameMode.class);
             startActivity(intent);
 
-        } else {
-            Toast.makeText(mainInt.this, "Please login first", Toast.LENGTH_SHORT).show();
         }
     }
     public void switchLogin() {
@@ -232,7 +241,7 @@ public class mainInt extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        builder.setNeutralButton("Nahh", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Don't play", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(mainInt.this, "No game for you!", Toast.LENGTH_SHORT).show();
             }
@@ -253,7 +262,7 @@ public class mainInt extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        builder.setNegativeButton("Nahh", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Don't play", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(mainInt.this, "No game for you!", Toast.LENGTH_SHORT).show();
             }
@@ -282,10 +291,14 @@ public class mainInt extends AppCompatActivity
         zoombutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "clicked!");
-                Log.i(TAG, String.valueOf(latLng));
-                Log.i(TAG, "moving camera");
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomlevel));
+                try {
+                    Log.i(TAG, "clicked!");
+                    Log.i(TAG, String.valueOf(latLng));
+                    Log.i(TAG, "moving camera");
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomlevel));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -436,7 +449,7 @@ public class mainInt extends AppCompatActivity
             i.addCategory(Intent.CATEGORY_LAUNCHER);
             startActivity(i);
             Log.i(TAG, "ending app");
-            endthisapp();
+            //endthisapp();
 
         } else {
             Toast.makeText(mainInt.this, "Please install Naamsestraatrider first.", Toast.LENGTH_SHORT).show();
@@ -478,13 +491,6 @@ public class mainInt extends AppCompatActivity
                 return true;
         }
         return false;
-    }
-
-
-    public void endthisapp(){
-        Log.i(TAG, "ending");
-        android.os.Process.killProcess(android.os.Process.myPid());
-
     }
 }
 

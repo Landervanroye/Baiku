@@ -27,7 +27,7 @@ import java.net.URL;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
-    Integer SESSIONID = 8;
+    Integer SESSIONID = 2;
     Button register_button;
     EditText login_register_edit, password_register_edit, email_edit, password_confirm_edit;
     private String Username;
@@ -143,12 +143,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
 
     public void putMessage() {
-        new PutAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3_test/" + SESSIONID);
+        new PutAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3/" + SESSIONID);
     }
 
     public void getMessage(){
         //set your own group number and session ID http://daddi.cs.kuleuven.be/peno3/data/{group number}/{session ID}
-        new GetAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3_test/" + SESSIONID);
+        new GetAsyncTask().execute("http://daddi.cs.kuleuven.be/peno3/data/B3/" + SESSIONID);
     }
 
     public void ToMainInt(){

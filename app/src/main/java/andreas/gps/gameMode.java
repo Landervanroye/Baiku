@@ -1,6 +1,5 @@
 package andreas.gps;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -9,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -321,7 +319,7 @@ public class gameMode extends AppCompatActivity
             @Override
             public void run() {
                 if (missedLocationUpdates > 3){
-                    Toast.makeText(gameMode.this, "Target not responding, getting new target", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(gameMode.this, "Target not responding, getting new target.", Toast.LENGTH_SHORT).show();
                     missedLocationUpdates = 0;
                     Log.i(TAG,"changeTarget - missedlocationupdates>3");
                     changeTarget();
@@ -368,6 +366,7 @@ public class gameMode extends AppCompatActivity
         } catch (Exception e){
             Log.i(TAG,e.toString());
         }
+        finish();
 
 
     }
@@ -383,7 +382,7 @@ public class gameMode extends AppCompatActivity
         try {
             Context con = createPackageContext("com.naamsestraatrider.game.android", 0);
             SharedPreferences pref = con.getSharedPreferences(
-                    "MyPreferences", Context.MODE_PRIVATE);
+                    "MyPreferences", Context.MODE_MULTI_PROCESS);
             data = pref.getLong("deltatime", naamseadded);
             Log.i("datatje",data.toString());
             data /= 700;
@@ -392,7 +391,7 @@ public class gameMode extends AppCompatActivity
         }
         data -= naamseadded;
         if (data != 0) {
-            Toast.makeText(this, "succesfully added " + String.valueOf(data) + " points of naamsestraatrider", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Succesfully added " + String.valueOf(data) + " points of naamsestraatrider.", Toast.LENGTH_LONG).show();
         }
         naamseadded += data;
         resetVariables();
@@ -1299,7 +1298,7 @@ public class gameMode extends AppCompatActivity
                             pursuers.remove(sender);
                         }
                         if (message.equals("success")) {
-                            Toast.makeText(gameMode.this, "You got killed by " + sender, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(gameMode.this, "You got killed by " + sender+".", Toast.LENGTH_SHORT).show();
                             mypoints *= 0.5;
                             points_score.setText(Integer.toString(mypoints));
                         } else {
@@ -1356,7 +1355,7 @@ public class gameMode extends AppCompatActivity
                             }
                             sound = (byte[]) data.get("sound");
                             speelsound();
-                            Toast.makeText(gameMode.this, "music playing", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(gameMode.this, "Music playing.", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -1445,7 +1444,7 @@ public class gameMode extends AppCompatActivity
                     mHandler.postDelayed(removePursuercallback,120000);
                 }
             } else {
-                Toast.makeText(gameMode.this, "Nobody is Hunting you.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(gameMode.this, "Nobody is hunting you.", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.powerUpDefensiveHardKill){
             if (orderPowerUp(powerUpDefensiveHardKillPrice)) {

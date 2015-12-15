@@ -27,7 +27,7 @@
             <item
                 android:id="@+id/minigame4"
                 android:icon="@drawable/minigames"
-                android:title="Naamse Straat Rider">
+                android:title="Naamsestraat Rider">
 
             </item>
         </menu>

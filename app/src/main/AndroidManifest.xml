@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="andreas.gps" >
+    package="andreas.gps">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -32,7 +32,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".mainInt"
+            android:name="andreas.gps.mainInt"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_main_int">
             <intent-filter>
@@ -42,41 +42,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gameMode"
+            android:name="andreas.gps.gameMode"
             android:label="@string/label_activity_gameMode"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".login"
+            android:name="andreas.gps.login"
             android:label="@string/label_login"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt">
+            android:parentActivityName="andreas.gps.mainInt">
         </activity>
         <activity
-            android:name=".data1"
+            android:name="andreas.gps.data1"
             android:label="@string/data"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt">
+            android:parentActivityName="andreas.gps.mainInt">
         </activity>
         <activity
-            android:name=".minigame1"
+            android:name="andreas.gps.minigame1"
             android:label="@string/minigame">
         </activity>
         <activity
-            android:name=".minigame2"
+            android:name="andreas.gps.minigame2"
             android:label="@string/minigame">
         </activity>
         <activity
-            android:name=".Register"
+            android:name="andreas.gps.Register"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt"
+            android:parentActivityName="andreas.gps.mainInt"
             >
         </activity>
-        <activity android:name=".userprofile"
+        <activity android:name="andreas.gps.userprofile"
             android:label="userprofile"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainInt">
+            android:parentActivityName="andreas.gps.mainInt">
 
         </activity>
     </application>
