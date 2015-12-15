@@ -1,4 +1,4 @@
-package baiku.bestgame;
+package andreas.gps;
 
 import android.content.Context;
 import android.content.Intent;

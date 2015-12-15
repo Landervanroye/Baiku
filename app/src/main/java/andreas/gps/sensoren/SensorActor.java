@@ -1,4 +1,4 @@
-package baiku.bestgame.sensoren;
+package andreas.gps.sensoren;
 
 public abstract class SensorActor {
     public abstract void Verwerk_Accelerometer(float x, float y, float z, float timenu);

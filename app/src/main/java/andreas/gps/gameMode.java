@@ -1,4 +1,4 @@
-package baiku.bestgame;
+package andreas.gps;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -71,10 +71,10 @@ import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Random;
 
-import baiku.bestgame.sensoren.SensorActor;
-import baiku.bestgame.sensoren.SensorCollector;
-import baiku.bestgame.sensoren.Sensor_SAVE;
-import baiku.bestgame.sensoren.SoundAct;
+import andreas.gps.sensoren.SensorActor;
+import andreas.gps.sensoren.SensorCollector;
+import andreas.gps.sensoren.Sensor_SAVE;
+import andreas.gps.sensoren.SoundAct;
 
 public class gameMode extends AppCompatActivity
         implements OnMapReadyCallback,
